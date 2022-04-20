@@ -1,0 +1,11 @@
+.burgerIngredients{
+    max-width: 600px;
+}
+.tabContent{
+    display: flex;
+    flex-wrap: wrap;
+}
+.burgerIngredient{
+    flex: 50%;
+    position: relative;
+}

@@ -1,0 +1,11 @@
+.app{
+    /*background-color: black;*/
+    max-width: 1240px;
+    margin: 0 auto;
+}
+.main{
+
+}
+.wrapper{
+    display: flex;
+}

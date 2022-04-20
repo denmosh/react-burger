@@ -1,0 +1,33 @@
+@value box: "~@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
+@value common: "~@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
+
+.d-flex{
+    display: flex;
+}
+
+.header{
+    composes: d-flex;
+    composes: pt-4 pb-4 from box;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+.menu{
+    composes: d-flex;
+    gap: 8px;
+}
+
+.menuItem{
+    composes: d-flex;
+    composes: text text_type_main-default from common;
+    composes: pt-4 pb-4 pl-5 pr-5 from box;
+    align-items: center;
+}
+
+.menuItemText{
+    composes: ml-2 from box;
+}
+
+
