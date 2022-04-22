@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {ingredients} from '../../utils/data.js';
 import {CurrencyIcon, Counter, Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
 
@@ -8,26 +7,9 @@ class BurgerIngredients extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ingredients: [],
-            loading: true,
-            hasError: false,
             activeTab: "bun",
-            categories: {
-                bun: "Булки",
-                sauce: "Начинки",
-                main: "Соусы",
-            }
         };
         this.setTab = this.setTab.bind(this);
-    }
-
-    componentDidMount() {
-        this.setState({
-            ...this.state,
-            loading: false,
-            hasError: false,
-            ingredients: ingredients,
-        })
     }
 
     setTab(value){
@@ -71,7 +53,7 @@ class BurgerIngredients extends Component {
                                                      <span className={"mr-2 text text_type_digits-default"}>{price}</span>
                                                      <CurrencyIcon/>
                                                  </div>
-                                                 <span className={style.name}>{name}</span>
+                                                 <span className={`${style.name} text_type_main-default`}>{name}</span>
                                              </div>
                                          )
                                      })}
