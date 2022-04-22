@@ -28,6 +28,11 @@
     composes: pt-4 pb-4 pl-5 pr-5 from box;
     align-items: center;
 }
+.menuItemLast{
+    composes: menuItem;
+    flex-basis: 25%;
+    justify-content: flex-end;
+}
 
 .menuItemText{
     composes: ml-2 from box;

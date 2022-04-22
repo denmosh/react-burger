@@ -1,0 +1,20 @@
+.constructor{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.main{
+    max-height: 440px;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    margin-right: -8px;
+}
+.currencyIcon{
+    width: 33px;
+    height: 33px;
+}
