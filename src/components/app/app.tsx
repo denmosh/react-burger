@@ -9,17 +9,15 @@ import appStyles from './app.module.css';
 
 function App() {
   return (
-    <div className={`${appStyles.app}`}>
+    <>
         <AppHeader/>
-        <div className={appStyles.main}>
-            <h1 className={"text_type_main-large"}>Соберите бургер</h1>
-            <section className={appStyles.wrapper}>
+        <div className={appStyles.wrapper}>
+            <section className={appStyles.main}>
                 <BurgerIngredients/>
                 <BurgerConstructor/>
             </section>
-
         </div>
-    </div>
+    </>
   );
 }
 

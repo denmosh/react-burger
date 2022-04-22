@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {ingredients} from '../../utils/data.js';
 import {CurrencyIcon, Counter, Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import burgerIngredientsStyle from './burger-ingredients.module.css';
+import style from './burger-ingredients.module.css';
 
 class BurgerIngredients extends Component {
 
@@ -9,15 +9,21 @@ class BurgerIngredients extends Component {
         super(props);
         this.state = {
             ingredients: [],
-                loading: true,
-                hasError: false,
-                tab: "bun"
+            loading: true,
+            hasError: false,
+            activeTab: "bun",
+            categories: {
+                bun: "Булки",
+                sauce: "Начинки",
+                main: "Соусы",
+            }
         };
         this.setTab = this.setTab.bind(this);
     }
 
     componentDidMount() {
         this.setState({
+            ...this.state,
             loading: false,
             hasError: false,
             ingredients: ingredients,
@@ -25,44 +31,55 @@ class BurgerIngredients extends Component {
     }
 
     setTab(value){
-        this.setState({...this.state, tab: value});
+        this.setState({...this.state, activeTab: value});
     }
 
     render() {
-        const { ingredients, isLoading, hasError } = this.state;
+        const { ingredients, isLoading, hasError, categories, activeTab } = this.state;
 
         return (
-            <div className={burgerIngredientsStyle.burgerIngredients}>
-                <div style={{display: 'flex'}}>
-                    <Tab value="bun" active={this.state.tab === 'bun'} onClick={this.setTab}>
-                        Булки
-                    </Tab>
-                    <Tab value="sauce" active={this.state.tab === 'sauce'} onClick={this.setTab}>
-                        Начинки
-                    </Tab>
-                    <Tab value="main" active={this.state.tab === 'main'} onClick={this.setTab}>
-                        Соусы
-                    </Tab>
+            <div className={`${style.container}`}>
+                <h1 className={"text_type_main-large mt-10"}>Соберите бургер</h1>
+                <div style={{display: 'flex'}} className={"pt-5 pb-10"}>
+                    { Object.keys(categories).map((key, value) => {
+                        return(
+                            <Tab value={key} key={key} active={activeTab === key} onClick={this.setTab}>
+                                {categories[key]}
+                            </Tab>
+                        )
+                    })}
                 </div>
-                <div className={burgerIngredientsStyle.tabContent}>
+                <div className={style.content}>
                     {isLoading && 'Загрузка...'}
                     {hasError && 'Произошла ошибка'}
                     {!isLoading &&
                     !hasError &&
                     !!ingredients.length &&
-                    ingredients.filter(({type}) => type === this.state.tab).map(({_id, image, name, price}) => {
-                        return (
-                            <div className={`${burgerIngredientsStyle.burgerIngredient} mt-6 mb-10 ml-4`}  key={_id}>
-                                <Counter count={1}/>
-                                <img src={image} alt={name} />
-                                <div className="price">
-                                    <span>{price}</span>
-                                    <CurrencyIcon/>
-                                </div>
-                                <span>{name}</span>
-                            </div>
-                        )
-                    })}
+                    Object.keys(categories).map((key) => {
+                            return(
+                                <section>
+                                <h3 className={` text_type_main-medium`}>{categories[key]}</h3>
+                                 <div className={`${style.section} pt-6 pl-4 pr-4 pb-2`}>
+                                     {ingredients.filter(({type}) => type === key).map(({_id, image, name, price}) => {
+                                         return (
+                                             <div
+                                                 className={`${style.item} mb-8`}
+                                                 key={_id}>
+                                                 <Counter count={1}/>
+                                                 <img className={`ml-4 mr-4`} src={image} alt={name}/>
+                                                 <div className={`${style.price} pt-1 pb-1`}>
+                                                     <span className={"mr-2 text text_type_digits-default"}>{price}</span>
+                                                     <CurrencyIcon/>
+                                                 </div>
+                                                 <span className={style.name}>{name}</span>
+                                             </div>
+                                         )
+                                     })}
+                                 </div>
+                                </section>
+                            )
+                        })
+  }
                 </div>
 
             </div>

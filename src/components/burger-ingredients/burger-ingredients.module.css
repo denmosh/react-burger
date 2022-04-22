@@ -1,11 +1,26 @@
-.burgerIngredients{
+.container{
     max-width: 600px;
 }
-.tabContent{
+.content{
+    max-height: 700px;
+    overflow-y: scroll;
+}
+.section{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
-.burgerIngredient{
-    flex: 50%;
+.item{
+    max-width: 272px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.price{
+    display: flex;
+}
+.name{
+    text-align: center;
 }
