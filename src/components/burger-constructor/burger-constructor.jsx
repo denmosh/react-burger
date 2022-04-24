@@ -1,10 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 function BurgerConstructor(props) {
+
+    const[isOpenModal, setIsOpenModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsOpenModal(true);
+    }
+    const handleCloseModal = () => {
+        setIsOpenModal(false);
+    }
+
+    const modal = (
+        <Modal onClose={handleCloseModal} >
+            <OrderDetails id={"034536"} />
+        </Modal>
+    );
+
     return (
         <div className={`mt-25 pl-4`}>
             <div className={style.constructor}>
@@ -46,8 +64,9 @@ function BurgerConstructor(props) {
                     <span className="text_type_digits-medium mr-2">610</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button size={"large"} type={"primary"}>Оформить заказ</Button>
+                <Button onClick={handleOpenModal} size={"large"} type={"primary"}>Оформить заказ</Button>
             </div>
+            {isOpenModal && modal}
         </div>
     );
 }

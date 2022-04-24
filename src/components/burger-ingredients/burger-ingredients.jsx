@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerIngredient from "../burger-ingredient/burger-ingredient";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import style from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
@@ -34,7 +34,7 @@ function BurgerIngredients(props){
                                 <div className={`${style.section} pt-6 pl-4 pr-4 pb-2`}>
                                     {ingredients.filter(({type}) => type === key).map((ingredient, index) => {
                                         return (
-                                            <BurgerIngredient key={ingredient._id} counter={index % 5 === 0 ? 1 : 0} {...ingredient}/>
+                                            <IngredientDetails key={ingredient._id} counter={index % 5 === 0 ? 1 : 0} {...ingredient}/>
                                         )
                                     })}
                                 </div>

@@ -42,7 +42,7 @@ function App(){
     }
 
     useEffect(()=>{
-        getIngredients()
+        getIngredients();
     }, [])
 
     return (
