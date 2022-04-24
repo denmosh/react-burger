@@ -33,7 +33,6 @@ function AppHeader() {
                     <span className={`${appHeaderStyles.menuItemText} text_color_inactive`}>Личный кабинет</span>
                 </div>
             </div>
-
         </header>
     );
 }

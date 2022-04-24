@@ -1,57 +1,54 @@
-import React, {Component} from 'react';
-import {ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import React from 'react';
+import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
 
-class BurgerConstructor extends Component {
-
-    render() {
-        return (
-            <div className={`mt-25 pl-4`}>
-                <div className={style.constructor}>
-                    <div className={`${style.wrapper} mr-4`}>
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text="Краторная булка N-200i (верх)"
-                            price={200}
-                            thumbnail={"https://code.s3.yandex.net/react/code/bun-02-mobile.png"}
-                        />
-                    </div>
-                    <div className={`${style.constructor} ${style.main}`}>
-                        {this.props.ingredients.filter(({type}) => type !== "bun").map((ingredient) => {
-                            return (
-                                <div key={ingredient._id} className={`${style.wrapper} mr-4`}>
-                                    <DragIcon type={"primary"}/>
-                                    <ConstructorElement
-                                        text={ingredient.name}
-                                        price={ingredient.price}
-                                        thumbnail={ingredient.image_mobile}
-                                    />
-                                </div>
-                            )
-                        })}
-                    </div>
-                    <div className={`${style.wrapper} mr-4`}>
-                        <ConstructorElement
-                            type="bottom"
-                            isLocked={true}
-                            text="Краторная булка N-200i (низ)"
-                            price={200}
-                            thumbnail={"https://code.s3.yandex.net/react/code/bun-02-mobile.png"}
-                        />
-                    </div>
+function BurgerConstructor(props) {
+    return (
+        <div className={`mt-25 pl-4`}>
+            <div className={style.constructor}>
+                <div className={`${style.wrapper} mr-4`}>
+                    <ConstructorElement
+                        type="top"
+                        isLocked={true}
+                        text="Краторная булка N-200i (верх)"
+                        price={200}
+                        thumbnail={"https://code.s3.yandex.net/react/code/bun-02-mobile.png"}
+                    />
                 </div>
-                <div className={`${style.wrapper} mr-4 mt-10`}>
-                    <div className="price mr-10">
-                        <span className="text_type_digits-medium mr-2">610</span>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
-                    <Button size={"large"} type={"primary"}>Оформить заказ</Button>
+                <div className={`${style.constructor} ${style.main}`}>
+                    {props.ingredients.filter(({type}) => type !== "bun").map((ingredient) => {
+                        return (
+                            <div key={ingredient._id} className={`${style.wrapper} mr-4`}>
+                                <DragIcon type={"primary"}/>
+                                <ConstructorElement
+                                    text={ingredient.name}
+                                    price={ingredient.price}
+                                    thumbnail={ingredient.image_mobile}
+                                />
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className={`${style.wrapper} mr-4`}>
+                    <ConstructorElement
+                        type="bottom"
+                        isLocked={true}
+                        text="Краторная булка N-200i (низ)"
+                        price={200}
+                        thumbnail={"https://code.s3.yandex.net/react/code/bun-02-mobile.png"}
+                    />
                 </div>
             </div>
-        );
-    }
+            <div className={`${style.wrapper} mr-4 mt-10`}>
+                <div className="price mr-10">
+                    <span className="text_type_digits-medium mr-2">610</span>
+                    <CurrencyIcon type={"primary"}/>
+                </div>
+                <Button size={"large"} type={"primary"}>Оформить заказ</Button>
+            </div>
+        </div>
+    );
 }
 
 const ingredientPropTypes = PropTypes.shape({
