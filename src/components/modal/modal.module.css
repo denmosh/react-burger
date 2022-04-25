@@ -1,13 +1,11 @@
 .modal{
     width: 720px;
     border-radius: 40px;
-    position: absolute;
-    top: 150px;
-    left: 0;
-    right: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #1C1C21;
-    margin-left: auto;
-    margin-right: auto;
     z-index: 4;
 }
 .modalHeader{
@@ -18,9 +16,6 @@
     width: 520px;
     margin: 0 auto;
     text-align: center;
-}
-.title{
-
 }
 .close{
     background-color: transparent;
