@@ -1,0 +1,12 @@
+.container{
+    max-width: 600px;
+}
+.content{
+    max-height: 660px;
+    overflow-y: scroll;
+}
+.section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
