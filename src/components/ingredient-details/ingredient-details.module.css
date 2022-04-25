@@ -1,14 +1,3 @@
-.item{
-    max-width: 272px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-}
-.price{
-    display: flex;
-}
 .name{
     text-align: center;
 }

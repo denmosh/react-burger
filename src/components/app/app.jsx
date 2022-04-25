@@ -22,7 +22,12 @@ function App(){
 
     const getIngredients = () => {
         fetch(API_URL + "api/ingredients")
-            .then((res) => res.json())
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка ${res.status}`);
+            })
             .then((res) => {
                 setState({
                     ...state,
@@ -37,7 +42,7 @@ function App(){
                     hasError: true,
                     ingredients: [],
                 })
-                console.log(error)
+                console.log(error);
             });
     }
 

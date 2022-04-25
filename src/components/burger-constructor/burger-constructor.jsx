@@ -36,9 +36,9 @@ function BurgerConstructor(props) {
                     />
                 </div>
                 <div className={`${style.constructor} ${style.main}`}>
-                    {props.ingredients.filter(({type}) => type !== "bun").map((ingredient) => {
+                    {props.ingredients.filter(({type}) => type !== "bun").map((ingredient, index) => {
                         return (
-                            <div key={ingredient._id} className={`${style.wrapper} mr-4`}>
+                            <div key={index} className={`${style.wrapper} mr-4`}>
                                 <DragIcon type={"primary"}/>
                                 <ConstructorElement
                                     text={ingredient.name}
@@ -70,7 +70,6 @@ function BurgerConstructor(props) {
         </div>
     );
 }
-
 
 BurgerConstructor.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,

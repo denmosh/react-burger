@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import style from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
+import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 
 function BurgerIngredients(props){
@@ -34,7 +34,7 @@ function BurgerIngredients(props){
                                 <div className={`${style.section} pt-6 pl-4 pr-4 pb-2`}>
                                     {ingredients.filter(({type}) => type === key).map((ingredient, index) => {
                                         return (
-                                            <IngredientDetails key={ingredient._id} counter={index % 5 === 0 ? 1 : 0} {...ingredient}/>
+                                            <BurgerIngredient key={ingredient._id} counter={index % 5 === 0 ? 1 : 0} ingredient={ingredient}/>
                                         )
                                     })}
                                 </div>
@@ -49,7 +49,8 @@ function BurgerIngredients(props){
 
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+    ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired
+    ).isRequired,
     categories: PropTypes.shape({
         bun: PropTypes.string.isRequired,
         sauce: PropTypes.string.isRequired,
