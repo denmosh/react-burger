@@ -1,0 +1,15 @@
+.name{
+    text-align: center;
+}
+.image{
+    margin: 0 auto;
+    display: block;
+}
+.details{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.detailsItem{
+    text-align: center;
+}

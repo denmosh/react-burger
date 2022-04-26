@@ -11,7 +11,6 @@
 .main{
     max-height: 440px;
     overflow-y: scroll;
-    scrollbar-gutter: stable;
     margin-right: -8px;
 }
 .currencyIcon{
