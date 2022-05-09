@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import {IngredientsContext} from "../../services/ingredients-context";
 import appStyles from './app.module.css';
 import {API_URL} from "../../constants/constants";
 
@@ -9,7 +10,6 @@ import {API_URL} from "../../constants/constants";
 function App(){
 
     const[state, setState] = useState({
-        ingredients: [],
         loading: true,
         hasError: false,
         activeTab: "bun",
@@ -19,6 +19,7 @@ function App(){
             main: "Соусы",
         }
     });
+    const[ingredients, setIngredients] = useState([]);
 
     const getIngredients = () => {
         fetch(API_URL + "api/ingredients")
@@ -33,15 +34,16 @@ function App(){
                     ...state,
                     loading: false,
                     hasError: false,
-                    ingredients: res.data,
-                })
+                });
+                setIngredients(res.data);
+
             }).catch((error)=>{
                 setState({
                     ...state,
                     loading: false,
                     hasError: true,
-                    ingredients: [],
-                })
+                });
+                setIngredients([]);
                 console.log(error);
             });
     }
@@ -55,13 +57,13 @@ function App(){
             <AppHeader/>
             <div className={appStyles.wrapper}>
                 <section className={appStyles.main}>
-                    {state.hasError? (
+                    {state.hasError ? (
                         <p>При получении данных воникла ошибка, пожалуйста, обратитесь к администратору.</p>
                     ) : (
-                        <>
-                            <BurgerIngredients ingredients={state.ingredients} categories={state.categories}/>
-                            <BurgerConstructor ingredients={state.ingredients}/>
-                        </>
+                        <IngredientsContext.Provider value={{ingredients, setIngredients}}>
+                            <BurgerIngredients categories={state.categories}/>
+                            <BurgerConstructor/>
+                        </IngredientsContext.Provider>
                     )}
 
                 </section>

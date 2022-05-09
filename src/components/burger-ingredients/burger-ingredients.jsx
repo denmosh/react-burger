@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
-import ingredientPropTypes from "../../constants/ingredient-prop-types";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
+import {IngredientsContext} from "../../services/ingredients-context";
 
 
 function BurgerIngredients(props){
 
     const [activeTab, setActiveTab] = useState("bun");
 
-    const {ingredients, categories} = props;
+    const {categories} = props;
+
+    const {ingredients} = useContext(IngredientsContext);
 
     return(
         <div className={`${style.container}`}>
@@ -49,8 +51,6 @@ function BurgerIngredients(props){
 
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired
-    ).isRequired,
     categories: PropTypes.shape({
         bun: PropTypes.string.isRequired,
         sauce: PropTypes.string.isRequired,
