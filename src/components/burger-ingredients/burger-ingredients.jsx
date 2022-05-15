@@ -3,7 +3,9 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
-import {IngredientsContext} from "../../services/ingredients-context";
+
+import { getBurgerIngredients } from "../../services/actions/burger-ingredients";
+import {useDispatch, useSelector} from "react-redux";
 
 
 function BurgerIngredients(props){
@@ -12,7 +14,12 @@ function BurgerIngredients(props){
 
     const {categories} = props;
 
-    const {ingredients} = useContext(IngredientsContext);
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(getBurgerIngredients());
+    },[])
+
+    const {ingredients} = useSelector(store => store.burgerIngredients);
 
     return(
         <div className={`${style.container}`}>

@@ -3,9 +3,10 @@ import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/
 import style from './burger-constructor.module.css';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import {IngredientsContext} from "../../services/ingredients-context";
+
 import {OrderContext} from "../../services/order-context";
 import {API_URL} from "../../constants/constants";
+import {useSelector} from "react-redux";
 
 const totalInitialState = { total: 0 };
 
@@ -35,7 +36,7 @@ function BurgerConstructor() {
 
     const[totalState, dispatch] = useReducer(reducer, totalInitialState, undefined);
 
-    const {ingredients} = useContext(IngredientsContext);
+    const {ingredients} = useSelector(store => store.burgerIngredients);
 
     useEffect(()=>{
         dispatch({type: "count", ingredients: ingredients});
