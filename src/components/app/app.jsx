@@ -7,6 +7,20 @@ import appStyles from './app.module.css';
 import {API_URL} from "../../constants/constants";
 
 
+import { configureStore } from '@reduxjs/toolkit'
+import { rootReducer } from "../../services/reducers";
+import thunk from "redux-thunk";
+import {Provider, useDispatch} from "react-redux";
+
+
+
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+    devTools: true,
+    enhancers: [],
+})
+
 function App(){
 
     const[state, setState] = useState({
@@ -54,20 +68,22 @@ function App(){
 
     return (
         <>
-            <AppHeader/>
-            <div className={appStyles.wrapper}>
-                <section className={appStyles.main}>
-                    {state.hasError ? (
-                        <p>При получении данных воникла ошибка, пожалуйста, обратитесь к администратору.</p>
-                    ) : (
-                        <IngredientsContext.Provider value={{ingredients, setIngredients}}>
-                            <BurgerIngredients categories={state.categories}/>
-                            <BurgerConstructor/>
-                        </IngredientsContext.Provider>
-                    )}
+            <Provider store={store}>
+                <AppHeader/>
+                <div className={appStyles.wrapper}>
+                    <section className={appStyles.main}>
+                        {state.hasError ? (
+                            <p>При получении данных воникла ошибка, пожалуйста, обратитесь к администратору.</p>
+                        ) : (
+                            <IngredientsContext.Provider value={{ingredients, setIngredients}}>
+                                <BurgerIngredients categories={state.categories}/>
+                                <BurgerConstructor/>
+                            </IngredientsContext.Provider>
+                        )}
 
-                </section>
-            </div>
+                    </section>
+                </div>
+            </Provider>
         </>
     );
 }
