@@ -5,21 +5,27 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from 'prop-types';
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
+import {useDispatch} from "react-redux";
+import {setIngredient, clearIngredient} from "../../services/actions/current-ingredient";
 
 function BurgerIngredient(props) {
 
     const[isOpenModal, setIsOpenModal] = useState(false);
 
+    const dispatch = useDispatch();
+
     const handleOpenModal = () => {
+        dispatch(setIngredient(props.ingredient));
         setIsOpenModal(true);
     }
     const handleCloseModal = () => {
+        dispatch(clearIngredient());
         setIsOpenModal(false);
     }
 
     const modal = (
         <Modal onClose={handleCloseModal} title={"Детали ингредиента"}>
-            <IngredientDetails ingredient={props.ingredient}/>
+            <IngredientDetails/>
         </Modal>
     );
 
