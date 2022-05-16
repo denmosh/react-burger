@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -21,7 +21,7 @@ const store = configureStore({
 
 function App(){
 
-    const[state, setState] = useState({
+    const[state] = useState({
         loading: true,
         hasError: false,
         activeTab: "bun",

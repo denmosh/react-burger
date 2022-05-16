@@ -8,7 +8,6 @@ import {burgerIngredients} from "./burger-ingredients";
 import {currentIngredient} from "./current-ingredient";
 
 export const rootReducer = combineReducers({
-    app,
     orderDetails,
     burgerIngredients,
     burgerConstructor,

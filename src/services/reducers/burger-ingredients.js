@@ -6,6 +6,12 @@ const burgerIngredientsInitialState = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsFailed: false,
+    activeTab: "bun",
+    categories: {
+        bun: "Булки",
+        sauce: "Начинки",
+        main: "Соусы",
+    }
 }
 
 export const burgerIngredients = createReducer(burgerIngredientsInitialState, (builder) => {

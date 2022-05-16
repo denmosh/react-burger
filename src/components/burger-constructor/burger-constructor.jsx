@@ -1,4 +1,4 @@
-import React, {useState, useContext, useReducer, useEffect} from 'react';
+import React, {useState, useReducer, useEffect} from 'react';
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-constructor.module.css';
 import Modal from "../modal/modal";
@@ -30,8 +30,6 @@ function reducer(state, action){
 function BurgerConstructor() {
 
     const[isOpenModal, setIsOpenModal] = useState(false);
-
-    const[orderDetails, setOrderDetails] = useState({});
 
     const[totalState, dispatchTotal] = useReducer(reducer, totalInitialState, undefined);
 
