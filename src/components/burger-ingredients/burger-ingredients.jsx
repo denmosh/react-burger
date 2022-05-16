@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
-import PropTypes from 'prop-types';
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 import { getBurgerIngredients } from "../../services/actions/burger-ingredients";
@@ -10,8 +9,6 @@ import {updateActiveTab} from "../../services/actions/burger-ingredients";
 
 
 function BurgerIngredients(){
-
-
 
     const {categories, activeTab} = useSelector(store => store.burgerIngredients);
 
@@ -26,7 +23,6 @@ function BurgerIngredients(){
     const setActiveTab = (value) => {
         dispatch(updateActiveTab(value));
     }
-
 
     const refs = useRef([]);
 
@@ -79,9 +75,5 @@ function BurgerIngredients(){
     );
 }
 
-
-BurgerIngredients.propTypes = {
-
-};
 
 export default BurgerIngredients;

@@ -6,6 +6,8 @@ import OrderDetails from "../order-details/order-details";
 
 import {useDispatch, useSelector} from "react-redux";
 import {createOrder} from "../../services/actions/order-details";
+import {useDrop} from "react-dnd";
+import {addIngredient, removeIngredient, replaceIngredientBun} from "../../services/actions/burger-constructor";
 
 const totalInitialState = { total: 0 };
 
@@ -15,9 +17,6 @@ function reducer(state, action){
             let total = 0;
             action.ingredients.map((ingredient) => {
                 total += ingredient.price;
-                if(ingredient.type === "bun"){
-                    total += ingredient.price;
-                }
             })
             return {total: total}
         case "reset":
@@ -35,18 +34,41 @@ function BurgerConstructor() {
 
     const dispatch = useDispatch();
 
+    const {ingredients} = useSelector(store => store.burgerConstructor);
+    const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
 
-    const {ingredients} = useSelector(store => store.burgerIngredients);
+    const [{ isHover } , drop] = useDrop({
+        accept: "ingredient",
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        }),
+        drop(item) {
+            (item.type !== "bun")?
+            dispatch(addIngredient(item)):
+            dispatch(replaceIngredientBun(item))
+        },
+    });
 
     useEffect(()=>{
         dispatchTotal({type: "count", ingredients: ingredients});
     }, [ingredients])
+
+    useEffect(()=>{
+        if(allIngredients.length && ingredients.length == 0){
+            const bun = allIngredients.filter(({type}) => type === "bun")[0];
+            dispatch(addIngredient(bun));
+            dispatch(addIngredient(bun));
+        }
+    }, [allIngredients])
 
     const handleOpenModal = () => {
         setIsOpenModal(true);
     }
     const handleCloseModal = () => {
         setIsOpenModal(false);
+    }
+    const handleRemoveIngredient = (index) => {
+        dispatch(removeIngredient({index: index}));
     }
 
     const handleClickOrder = () =>{
@@ -64,7 +86,7 @@ function BurgerConstructor() {
     const bun = ingredients.filter(({type}) => type === "bun")[0];
 
     return (
-        <div className={`mt-25 pl-4`}>
+        <div ref={drop} className={`mt-25 pl-4`}>
             <div className={style.constructor}>
                 <div className={`${style.wrapper} mr-4`}>
                     {bun && (
@@ -86,6 +108,8 @@ function BurgerConstructor() {
                                     text={ingredient.name}
                                     price={ingredient.price}
                                     thumbnail={ingredient.image_mobile}
+                                    handleClose={e => handleRemoveIngredient(index + 2)}
+
                                 />
                             </div>
                         )

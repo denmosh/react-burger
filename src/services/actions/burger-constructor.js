@@ -1,10 +1,5 @@
-import { createReducer } from '@reduxjs/toolkit'
+import {createAction} from "@reduxjs/toolkit";
 
-
-const burgerConstructorInitialState = {
-    ingredients: [],
-}
-
-export const burgerConstructor = createReducer(burgerConstructorInitialState, (builder) => {
-
-});
+export const addIngredient = createAction('ADD_INGREDIENT');
+export const removeIngredient = createAction('REMOVE_INGREDIENT');
+export const replaceIngredientBun = createAction('REPLACE_INGREDIENT_BUN');
