@@ -1,17 +1,18 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import DoneIcon from "../../images/done.png";
 import style from "./order-details.module.css"
-import {OrderContext} from "../../services/order-context";
+import {useSelector} from "react-redux";
+
 
 function OrderDetails() {
 
-    const {orderDetails} = useContext(OrderContext);
+    const {order} = useSelector(store => store.orderDetails);
 
     return (
         <>
-            {orderDetails && orderDetails.success ? (
+            {order && order.number ? (
                     <>
-                        <p className={`${style.orderNumber} text_type_digits-large mt-10`}>{orderDetails.order.number}</p>
+                        <p className={`${style.orderNumber} text_type_digits-large mt-10`}>{order.number}</p>
                         <p className={"text_type_main-medium"}>идентификатор заказа</p>
                         <img className={`${style.doneIcon} mt-15 mb-15`} src={DoneIcon} alt="done"/>
                         <p className={"text_type_main-default mb-2"}>Ваш заказ начали готовить</p>

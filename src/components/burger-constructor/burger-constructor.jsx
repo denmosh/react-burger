@@ -4,9 +4,8 @@ import style from './burger-constructor.module.css';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
-import {OrderContext} from "../../services/order-context";
-import {API_URL} from "../../constants/constants";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {createOrder} from "../../services/actions/order-details";
 
 const totalInitialState = { total: 0 };
 
@@ -34,12 +33,15 @@ function BurgerConstructor() {
 
     const[orderDetails, setOrderDetails] = useState({});
 
-    const[totalState, dispatch] = useReducer(reducer, totalInitialState, undefined);
+    const[totalState, dispatchTotal] = useReducer(reducer, totalInitialState, undefined);
+
+    const dispatch = useDispatch();
+
 
     const {ingredients} = useSelector(store => store.burgerIngredients);
 
     useEffect(()=>{
-        dispatch({type: "count", ingredients: ingredients});
+        dispatchTotal({type: "count", ingredients: ingredients});
     }, [ingredients])
 
     const handleOpenModal = () => {
@@ -50,39 +52,14 @@ function BurgerConstructor() {
     }
 
     const handleClickOrder = () =>{
-        createOrder();
-    }
-
-    const createOrder = () => {
-        fetch(API_URL + "api/orders",{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ingredients: ingredients.map(({_id}) => _id)})
-        })
-            .then(res => {
-                if (res.ok || res.status === 400) {
-                    return res.json();
-                }
-                return Promise.reject(`Ошибка ${res.status}`);
-            })
-            .then((res) => {
-                setOrderDetails(res);
-                handleOpenModal();
-            }).catch((error)=>{
-            setOrderDetails({success: false});
-            handleOpenModal();
-            console.log(error);
-        });
+        dispatch(createOrder(ingredients.map(({_id}) => _id)));
+        handleOpenModal();
     }
 
 
     const modal = (
         <Modal onClose={handleCloseModal} >
-            <OrderContext.Provider value={{orderDetails, setOrderDetails}}>
-                <OrderDetails />
-            </OrderContext.Provider>
+            <OrderDetails />
         </Modal>
     );
 

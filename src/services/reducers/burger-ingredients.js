@@ -11,7 +11,6 @@ const burgerIngredientsInitialState = {
 export const burgerIngredients = createReducer(burgerIngredientsInitialState, (builder) => {
     builder
         .addCase(getIngredients, (state, action) => {
-           console.log("get ing");
             return {
                ...state,
                ingredientsRequest: true,
