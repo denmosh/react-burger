@@ -4,6 +4,7 @@ import {API_URL} from "../../constants/constants";
 export const getIngredients = createAction('GET_INGREDIENTS');
 export const getIngredientsSuccess = createAction('GET_INGREDIENTS_SUCCESS');
 export const getIngredientsFailed = createAction('GET_INGREDIENTS_FAILED');
+export const updateActiveTab = createAction('UPDATE_ACTIVE_TAB');
 
 export function getBurgerIngredients() {
 

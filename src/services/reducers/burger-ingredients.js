@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {getIngredientsFailed, getIngredients, getIngredientsSuccess} from "../actions/burger-ingredients";
+import {getIngredientsFailed, getIngredients, getIngredientsSuccess, updateActiveTab} from "../actions/burger-ingredients";
 
 
 const burgerIngredientsInitialState = {
@@ -16,6 +16,12 @@ const burgerIngredientsInitialState = {
 
 export const burgerIngredients = createReducer(burgerIngredientsInitialState, (builder) => {
     builder
+        .addCase(updateActiveTab, (state, action) => {
+            return {
+               ...state,
+               activeTab: action.payload
+           }
+        })
         .addCase(getIngredients, (state, action) => {
             return {
                ...state,
