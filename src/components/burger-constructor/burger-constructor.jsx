@@ -1,8 +1,9 @@
 import React, {useState, useReducer, useEffect} from 'react';
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {Button, ConstructorElement, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-constructor.module.css';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import ConstructorItem from "../constructor-item/constructor-item";
 
 import {useDispatch, useSelector} from "react-redux";
 import {createOrder} from "../../services/actions/order-details";
@@ -37,7 +38,7 @@ function BurgerConstructor() {
     const {ingredients} = useSelector(store => store.burgerConstructor);
     const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
 
-    const [{ isHover } , drop] = useDrop({
+    const [, drop] = useDrop({
         accept: "ingredient",
         collect: monitor => ({
             isHover: monitor.isOver(),
@@ -54,7 +55,7 @@ function BurgerConstructor() {
     }, [ingredients])
 
     useEffect(()=>{
-        if(allIngredients.length && ingredients.length == 0){
+        if(allIngredients.length && ingredients.length === 0){
             const bun = allIngredients.filter(({type}) => type === "bun")[0];
             dispatch(addIngredient(bun));
             dispatch(addIngredient(bun));
@@ -67,8 +68,8 @@ function BurgerConstructor() {
     const handleCloseModal = () => {
         setIsOpenModal(false);
     }
-    const handleRemoveIngredient = (index) => {
-        dispatch(removeIngredient({index: index}));
+    const handleRemoveIngredient = (uuid) => {
+        dispatch(removeIngredient({uuid: uuid}));
     }
 
     const handleClickOrder = () =>{
@@ -102,16 +103,7 @@ function BurgerConstructor() {
                 <div className={`${style.constructor} ${style.main}`}>
                     {ingredients.filter(({type}) => type !== "bun").map((ingredient, index) => {
                         return (
-                            <div key={index} className={`${style.wrapper} mr-4`}>
-                                <DragIcon type={"primary"}/>
-                                <ConstructorElement
-                                    text={ingredient.name}
-                                    price={ingredient.price}
-                                    thumbnail={ingredient.image_mobile}
-                                    handleClose={e => handleRemoveIngredient(index + 2)}
-
-                                />
-                            </div>
+                            <ConstructorItem key={ingredient.uuid} ingredient={ingredient} index={index + 2} handleRemoveItem={handleRemoveIngredient} />
                         )
                     })}
                 </div>

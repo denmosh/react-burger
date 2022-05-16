@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {addIngredient, removeIngredient, replaceIngredientBun} from "../actions/burger-constructor";
+import {addIngredient, moveIngredient, removeIngredient, replaceIngredientBun} from "../actions/burger-constructor";
+import uuid from 'react-uuid';
 
 
 
@@ -10,18 +11,22 @@ const burgerConstructorInitialState = {
 export const burgerConstructor = createReducer(burgerConstructorInitialState, (builder) => {
     builder
         .addCase(addIngredient, (state, action) => {
-            state.ingredients.push(action.payload);
+            state.ingredients.push({...action.payload, uuid: uuid()});
         })
         .addCase(removeIngredient, (state, action) => {
-            state.ingredients.splice(action.payload.index, 1)
-            // return {
-            //     ingredients:  state.ingredients.splice(action.payload.index, 1)
-            // }
+           return{
+               ingredients: state.ingredients.filter(({uuid}) => uuid !== action.payload.uuid )
+           }
+        })
+        .addCase(moveIngredient, (state, action) => {
+            let ingredient =  state.ingredients[action.payload.from];
+            state.ingredients.splice(action.payload.from, 1);
+            state.ingredients.splice(action.payload.to, 0, ingredient);
         })
         .addCase(replaceIngredientBun, (state, action) => {
             return {
                 ingredients:  state.ingredients.map((item, index)=>{
-                    return (item.type === 'bun') ? action.payload : item;
+                    return (item.type === 'bun') ? {...action.payload, uuid: uuid() }: item;
                 })
             }
 
