@@ -1,5 +1,6 @@
 import {createAction} from "@reduxjs/toolkit";
 import {API_URL} from "../../constants/constants";
+import {getResponse} from "./common";
 
 export const getIngredients = createAction('GET_INGREDIENTS');
 export const getIngredientsSuccess = createAction('GET_INGREDIENTS_SUCCESS');
@@ -13,10 +14,7 @@ export function getBurgerIngredients() {
         dispatch(getIngredients());
 
         fetch(API_URL + "api/ingredients").then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(`Ошибка ${res.status}`);
+            getResponse(res);
         }).then((res) => {
             dispatch(getIngredientsSuccess(res.data));
         }).catch((error) => {

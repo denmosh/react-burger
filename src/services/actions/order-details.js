@@ -1,5 +1,6 @@
 import {createAction} from "@reduxjs/toolkit";
 import {API_URL} from "../../constants/constants";
+import {getResponse} from "./common";
 
 export const createOrderRequest = createAction('CREATE_ORDER_REQUEST');
 export const createOrderSuccess = createAction('CREATE_ORDER_SUCCESS');
@@ -19,10 +20,7 @@ export function createOrder(ingredients) {
             body: JSON.stringify({ingredients: ingredients})
         })
             .then(res => {
-                if (res.ok || res.status === 400) {
-                    return res.json();
-                }
-                return Promise.reject(`Ошибка ${res.status}`);
+                getResponse(res);
             })
             .then((res) => {
                 dispatch(createOrderSuccess(res));
