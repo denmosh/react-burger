@@ -5,21 +5,9 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import appStyles from './app.module.css';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
-
-import { configureStore } from '@reduxjs/toolkit'
-import { rootReducer } from "../../services/reducers";
-import thunk from "redux-thunk";
 import {Provider} from "react-redux";
+import {store} from "../../services/store";
 
-
-
-const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
-    devTools: true,
-    enhancers: [],
-})
 
 function App(){
 
