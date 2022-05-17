@@ -24,19 +24,17 @@ const store = configureStore({
 function App(){
 
     return (
-        <>
-            <Provider store={store}>
-                <DndProvider backend={HTML5Backend}>
-                    <AppHeader/>
-                    <div className={appStyles.wrapper}>
-                        <section className={appStyles.main}>
-                            <BurgerIngredients/>
-                            <BurgerConstructor/>
-                        </section>
-                    </div>
-                </DndProvider>
-            </Provider>
-        </>
+        <Provider store={store}>
+            <DndProvider backend={HTML5Backend}>
+                <AppHeader/>
+                <div className={appStyles.wrapper}>
+                    <section className={appStyles.main}>
+                        <BurgerIngredients/>
+                        <BurgerConstructor/>
+                    </section>
+                </div>
+            </DndProvider>
+        </Provider>
     );
 }
 
