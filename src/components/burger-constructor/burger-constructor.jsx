@@ -6,7 +6,7 @@ import OrderDetails from "../order-details/order-details";
 import ConstructorItem from "../constructor-item/constructor-item";
 
 import {useDispatch, useSelector} from "react-redux";
-import {createOrder} from "../../services/actions/order-details";
+import {countOrderTotal, createOrder} from "../../services/actions/order-details";
 import {useDrop} from "react-dnd";
 import {
     addIngredient,
@@ -15,32 +15,17 @@ import {
     replaceIngredientBun
 } from "../../services/actions/burger-constructor";
 
-const totalInitialState = { total: 0 };
 
-function reducer(state, action){
-    switch (action.type) {
-        case "count":
-            let total = 0;
-            action.ingredients.map((ingredient) => {
-                total += ingredient.price;
-            })
-            return {total: total}
-        case "reset":
-            return totalInitialState;
-        default:
-            throw new Error(`Wrong type of action: ${action.type}`);
-    }
-}
 
 function BurgerConstructor() {
 
     const[isOpenModal, setIsOpenModal] = useState(false);
 
-    const[totalState, dispatchTotal] = useReducer(reducer, totalInitialState, undefined);
 
     const dispatch = useDispatch();
 
     const {ingredients} = useSelector(store => store.burgerConstructor);
+    const {total} = useSelector(store => store.orderDetails);
     const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
 
     const bun = ingredients.filter(({type}) => type === "bun")[0];
@@ -64,7 +49,7 @@ function BurgerConstructor() {
     });
 
     useEffect(()=>{
-        dispatchTotal({type: "count", ingredients: ingredients});
+        dispatch(countOrderTotal(ingredients));
     }, [ingredients])
 
     useEffect(()=>{
@@ -139,7 +124,7 @@ function BurgerConstructor() {
             </div>
             <div className={`${style.wrapper} mr-4 mt-10`}>
                 <div className="price mr-10">
-                    <span className="text_type_digits-medium mr-2">{totalState.total}</span>
+                    <span className="text_type_digits-medium mr-2">{total}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
 

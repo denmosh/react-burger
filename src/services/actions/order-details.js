@@ -6,6 +6,7 @@ import {clearIngredients} from "./burger-constructor";
 export const createOrderRequest = createAction('CREATE_ORDER_REQUEST');
 export const createOrderSuccess = createAction('CREATE_ORDER_SUCCESS');
 export const createOrderFailed = createAction('CREATE_ORDER_FAILED');
+export const countOrderTotal = createAction('COUNT_ORDER_TOTAL');
 
 export function createOrder(ingredients) {
 
