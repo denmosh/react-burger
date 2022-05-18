@@ -22,7 +22,6 @@ function BurgerConstructor() {
 
     const {ingredients} = useSelector(store => store.burgerConstructor);
     const {total, orderRequest, orderModal} = useSelector(store => store.orderDetails);
-    const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
 
     const bun = ingredients.filter(({type}) => type === "bun")[0];
 
@@ -48,11 +47,6 @@ function BurgerConstructor() {
         dispatch(countOrderTotal(ingredients));
     }, [ingredients])
 
-    useEffect(()=>{
-        if(allIngredients.length && ingredients.length === 0){
-            const bun = allIngredients.filter(({type}) => type === "bun")[0];
-        }
-    }, [allIngredients])
 
     const handleCloseModal = () => {
         dispatch(closeOderModal());
@@ -64,7 +58,6 @@ function BurgerConstructor() {
     const handleClickOrder = () =>{
         dispatch(createOrder(ingredients.map(({_id}) => _id)));
     }
-
 
     const modal = (
         <Modal onClose={handleCloseModal} >
