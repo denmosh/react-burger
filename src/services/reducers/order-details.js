@@ -1,11 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit'
-import {createOrderRequest, createOrderFailed, createOrderSuccess, countOrderTotal} from "../actions/order-details";
+import {
+    createOrderRequest,
+    createOrderFailed,
+    createOrderSuccess,
+    countOrderTotal,
+    showOrderModal, closeOderModal
+} from "../actions/order-details";
 
 
 const orderDetailsInitialState = {
     order:{},
     orderRequest: false,
     orderFailed: false,
+    orderModal: false,
     total: 0,
 }
 
@@ -32,6 +39,18 @@ export const orderDetails = createReducer(orderDetailsInitialState, (builder) =>
             return {
                 ...state,
                 total: sum,
+            }
+        })
+        .addCase(showOrderModal, (state, action) => {
+            return {
+                ...state,
+                orderModal: true,
+            }
+        })
+        .addCase(closeOderModal, (state, action) => {
+            return {
+                ...state,
+                orderModal: false,
             }
         })
         .addCase(createOrderFailed, (state, action) => {

@@ -1,4 +1,4 @@
-import React, {useState, useReducer, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Button, ConstructorElement, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-constructor.module.css';
 import Modal from "../modal/modal";
@@ -6,7 +6,7 @@ import OrderDetails from "../order-details/order-details";
 import ConstructorItem from "../constructor-item/constructor-item";
 
 import {useDispatch, useSelector} from "react-redux";
-import {countOrderTotal, createOrder} from "../../services/actions/order-details";
+import {countOrderTotal, createOrder, closeOderModal} from "../../services/actions/order-details";
 import {useDrop} from "react-dnd";
 import {
     addIngredient,
@@ -16,16 +16,12 @@ import {
 } from "../../services/actions/burger-constructor";
 
 
-
 function BurgerConstructor() {
-
-    const[isOpenModal, setIsOpenModal] = useState(false);
-
 
     const dispatch = useDispatch();
 
     const {ingredients} = useSelector(store => store.burgerConstructor);
-    const {total} = useSelector(store => store.orderDetails);
+    const {total, orderRequest, orderModal} = useSelector(store => store.orderDetails);
     const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
 
     const bun = ingredients.filter(({type}) => type === "bun")[0];
@@ -58,11 +54,8 @@ function BurgerConstructor() {
         }
     }, [allIngredients])
 
-    const handleOpenModal = () => {
-        setIsOpenModal(true);
-    }
     const handleCloseModal = () => {
-        setIsOpenModal(false);
+        dispatch(closeOderModal());
     }
     const handleRemoveIngredient = (uuid) => {
         dispatch(removeIngredient({uuid: uuid}));
@@ -70,7 +63,6 @@ function BurgerConstructor() {
 
     const handleClickOrder = () =>{
         dispatch(createOrder(ingredients.map(({_id}) => _id)));
-        handleOpenModal();
     }
 
 
@@ -123,14 +115,17 @@ function BurgerConstructor() {
                 </div>
             </div>
             <div className={`${style.wrapper} mr-4 mt-10`}>
+                { orderRequest && (
+                    <div className={`${style.loader} mr-5`}></div>
+                )}
                 <div className="price mr-10">
                     <span className="text_type_digits-medium mr-2">{total}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-
                 <Button onClick={handleClickOrder} size={"large"} disabled={bun === undefined} type={"primary"}>Оформить заказ</Button>
+
             </div>
-            {isOpenModal && modal}
+            {orderModal && modal}
         </div>
     );
 }
