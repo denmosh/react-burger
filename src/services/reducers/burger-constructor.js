@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
     addIngredient,
-    addIngredientBun,
+    addIngredientBun, clearIngredients,
     moveIngredient,
     removeIngredient,
     replaceIngredientBun
@@ -39,6 +39,10 @@ export const burgerConstructor = createReducer(burgerConstructorInitialState, (b
                     return (item.type === 'bun') ? {...action.payload, uuid: uuid() }: item;
                 })
             }
-
+        })
+        .addCase(clearIngredients, (state, action) => {
+            return {
+                ingredients: []
+            }
         })
 });

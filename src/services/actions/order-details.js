@@ -1,6 +1,7 @@
 import {createAction} from "@reduxjs/toolkit";
 import {API_URL} from "../../constants/constants";
 import {getResponse} from "./common";
+import {clearIngredients} from "./burger-constructor";
 
 export const createOrderRequest = createAction('CREATE_ORDER_REQUEST');
 export const createOrderSuccess = createAction('CREATE_ORDER_SUCCESS');
@@ -22,6 +23,7 @@ export function createOrder(ingredients) {
             .then(getResponse)
             .then((res) => {
                 dispatch(createOrderSuccess(res));
+                dispatch(clearIngredients());
             }).catch((error) => {
             dispatch(createOrderFailed());
         });
