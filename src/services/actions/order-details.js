@@ -19,9 +19,7 @@ export function createOrder(ingredients) {
             },
             body: JSON.stringify({ingredients: ingredients})
         })
-            .then(res => {
-                getResponse(res);
-            })
+            .then(getResponse)
             .then((res) => {
                 dispatch(createOrderSuccess(res));
             }).catch((error) => {

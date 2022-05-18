@@ -13,9 +13,7 @@ export function getBurgerIngredients() {
 
         dispatch(getIngredients());
 
-        fetch(API_URL + "api/ingredients").then(res => {
-            getResponse(res);
-        }).then((res) => {
+        fetch(API_URL + "api/ingredients").then(getResponse).then((res) => {
             dispatch(getIngredientsSuccess(res.data));
         }).catch((error) => {
             dispatch(getIngredientsFailed(error));
