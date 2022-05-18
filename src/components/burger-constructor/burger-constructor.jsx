@@ -8,7 +8,12 @@ import ConstructorItem from "../constructor-item/constructor-item";
 import {useDispatch, useSelector} from "react-redux";
 import {createOrder} from "../../services/actions/order-details";
 import {useDrop} from "react-dnd";
-import {addIngredient, removeIngredient, replaceIngredientBun} from "../../services/actions/burger-constructor";
+import {
+    addIngredient,
+    addIngredientBun,
+    removeIngredient,
+    replaceIngredientBun
+} from "../../services/actions/burger-constructor";
 
 const totalInitialState = { total: 0 };
 
@@ -38,15 +43,23 @@ function BurgerConstructor() {
     const {ingredients} = useSelector(store => store.burgerConstructor);
     const allIngredients = useSelector(store => store.burgerIngredients.ingredients);
 
+    const bun = ingredients.filter(({type}) => type === "bun")[0];
+
     const [, drop] = useDrop({
         accept: "ingredient",
         collect: monitor => ({
             isHover: monitor.isOver(),
         }),
         drop(item) {
-            (item.type !== "bun")?
-            dispatch(addIngredient(item)):
-            dispatch(replaceIngredientBun(item))
+            if(item.type === "bun"){
+                if(!!bun){
+                    dispatch(replaceIngredientBun(item))
+                }else{
+                    dispatch(addIngredientBun(item))
+                }
+            }else{
+                dispatch(addIngredient(item))
+            }
         },
     });
 
@@ -57,8 +70,6 @@ function BurgerConstructor() {
     useEffect(()=>{
         if(allIngredients.length && ingredients.length === 0){
             const bun = allIngredients.filter(({type}) => type === "bun")[0];
-            dispatch(addIngredient(bun));
-            dispatch(addIngredient(bun));
         }
     }, [allIngredients])
 
@@ -84,11 +95,18 @@ function BurgerConstructor() {
         </Modal>
     );
 
-    const bun = ingredients.filter(({type}) => type === "bun")[0];
+    const placeholder = (ingredients.length === 0) ? (
+        <div className={`${style.placeholder}`}>
+            <p className={"text text_type_main-default text_color_inactive p-5"}>Переместите ингредиенты для вашего бургера в данную область.<br/>
+                Не забудьте добавить булку.</p>
+        </div>
+    ) : ''
+
 
     return (
         <div ref={drop} className={`mt-25 pl-4`}>
             <div className={style.constructor}>
+                {placeholder}
                 <div className={`${style.wrapper} mr-4`}>
                     {bun && (
                         <ConstructorElement
@@ -125,7 +143,7 @@ function BurgerConstructor() {
                     <CurrencyIcon type={"primary"}/>
                 </div>
 
-                <Button onClick={handleClickOrder} size={"large"} type={"primary"}>Оформить заказ</Button>
+                <Button onClick={handleClickOrder} size={"large"} disabled={bun === undefined} type={"primary"}>Оформить заказ</Button>
             </div>
             {isOpenModal && modal}
         </div>

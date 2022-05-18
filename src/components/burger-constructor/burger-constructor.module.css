@@ -17,3 +17,11 @@
     width: 33px;
     height: 33px;
 }
+.placeholder{
+    border: 2px dashed #8585AD;
+    display: flex;
+    flex-direction: column;
+    height: 440px;
+    max-width: 580px;
+    justify-content: center;
+}
