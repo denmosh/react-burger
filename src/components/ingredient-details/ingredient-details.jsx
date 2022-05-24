@@ -1,8 +1,10 @@
 import React from 'react';
 import style from "./ingredient-details.module.css";
-import ingredientPropTypes from "../../constants/ingredient-prop-types";
+import {useSelector} from "react-redux";
 
-function IngredientDetails({ingredient}) {
+function IngredientDetails() {
+
+    const {ingredient} = useSelector(store => store.currentIngredient);
 
     return (
         <>
@@ -28,11 +30,6 @@ function IngredientDetails({ingredient}) {
             </div>
         </>
     );
-}
-
-
-IngredientDetails.propTypes = {
-    ingredient: ingredientPropTypes
 }
 
 export default IngredientDetails;

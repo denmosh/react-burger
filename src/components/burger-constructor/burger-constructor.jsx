@@ -1,78 +1,126 @@
-import React, {useState} from 'react';
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {useEffect} from 'react';
+import {Button, ConstructorElement, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
-import ingredientPropTypes from "../../constants/ingredient-prop-types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import ConstructorItem from "../constructor-item/constructor-item";
 
-function BurgerConstructor(props) {
+import {useDispatch, useSelector} from "react-redux";
+import {countOrderTotal, createOrder, closeOderModal} from "../../services/actions/order-details";
+import {useDrop} from "react-dnd";
+import {
+    addIngredient,
+    addIngredientBun,
+    removeIngredient,
+    replaceIngredientBun
+} from "../../services/actions/burger-constructor";
 
-    const[isOpenModal, setIsOpenModal] = useState(false);
 
-    const handleOpenModal = () => {
-        setIsOpenModal(true);
-    }
+function BurgerConstructor() {
+
+    const dispatch = useDispatch();
+
+    const {ingredients} = useSelector(store => store.burgerConstructor);
+    const {total, orderRequest, orderModal} = useSelector(store => store.orderDetails);
+
+    const bun = ingredients.filter(({type}) => type === "bun")[0];
+
+    const [, drop] = useDrop({
+        accept: "ingredient",
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        }),
+        drop(item) {
+            if(item.type === "bun"){
+                if(!!bun){
+                    dispatch(replaceIngredientBun(item))
+                }else{
+                    dispatch(addIngredientBun(item))
+                }
+            }else{
+                dispatch(addIngredient(item))
+            }
+        },
+    });
+
+    useEffect(()=>{
+        dispatch(countOrderTotal(ingredients));
+    }, [ingredients])
+
+
     const handleCloseModal = () => {
-        setIsOpenModal(false);
+        dispatch(closeOderModal());
+    }
+    const handleRemoveIngredient = (uuid) => {
+        dispatch(removeIngredient({uuid: uuid}));
+    }
+
+    const handleClickOrder = () =>{
+        dispatch(createOrder(ingredients.map(({_id}) => _id)));
     }
 
     const modal = (
         <Modal onClose={handleCloseModal} >
-            <OrderDetails id={"034536"} />
+            <OrderDetails />
         </Modal>
     );
 
+    const placeholder = (ingredients.length === 0) ? (
+        <div className={`${style.placeholder}`}>
+            <p className={"text text_type_main-default text_color_inactive p-5"}>Переместите ингредиенты для вашего бургера в данную область.<br/>
+                Не забудьте добавить булку.</p>
+        </div>
+    ) : ''
+
+
     return (
-        <div className={`mt-25 pl-4`}>
+        <div ref={drop} className={`mt-25 pl-4`}>
             <div className={style.constructor}>
+                {placeholder}
                 <div className={`${style.wrapper} mr-4`}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail={"https://code.s3.yandex.net/react/code/bun-02-mobile.png"}
-                    />
+                    {bun && (
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={`${bun.name} (верх)`}
+                            price={bun.price}
+                            thumbnail={bun.image_mobile}
+                        />
+                    )}
                 </div>
                 <div className={`${style.constructor} ${style.main}`}>
-                    {props.ingredients.filter(({type}) => type !== "bun").map((ingredient, index) => {
+                    {ingredients.filter(({type}) => type !== "bun").map((ingredient, index) => {
                         return (
-                            <div key={index} className={`${style.wrapper} mr-4`}>
-                                <DragIcon type={"primary"}/>
-                                <ConstructorElement
-                                    text={ingredient.name}
-                                    price={ingredient.price}
-                                    thumbnail={ingredient.image_mobile}
-                                />
-                            </div>
+                            <ConstructorItem key={ingredient.uuid} ingredient={ingredient} index={index + 2} handleRemoveItem={handleRemoveIngredient} />
                         )
                     })}
                 </div>
                 <div className={`${style.wrapper} mr-4`}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={200}
-                        thumbnail={"https://code.s3.yandex.net/react/code/bun-02-mobile.png"}
-                    />
+                    {bun && (
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={`${bun.name} (низ)`}
+                            price={bun.price}
+                            thumbnail={bun.image_mobile}
+                        />
+                    )}
                 </div>
             </div>
             <div className={`${style.wrapper} mr-4 mt-10`}>
+                { orderRequest && (
+                    <div className={`${style.loader} mr-5`}></div>
+                )}
                 <div className="price mr-10">
-                    <span className="text_type_digits-medium mr-2">610</span>
+                    <span className="text_type_digits-medium mr-2">{total}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button onClick={handleOpenModal} size={"large"} type={"primary"}>Оформить заказ</Button>
+                <Button onClick={handleClickOrder} size={"large"} disabled={bun === undefined} type={"primary"}>Оформить заказ</Button>
+
             </div>
-            {isOpenModal && modal}
+            {orderModal && modal}
         </div>
     );
 }
-
-BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-};
 
 export default BurgerConstructor;
