@@ -5,7 +5,7 @@ import {Link, useHistory} from "react-router-dom";
 
 export function ForgotPasswordPage() {
 
-    const [form, setValue] = useState({ email: '', password: '', token: '' });
+    const [form, setValue] = useState({ email: '' });
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -30,27 +30,6 @@ export function ForgotPasswordPage() {
                 </div>
                 <Button type="primary" size="large">
                     Восстановить
-                </Button>
-
-
-                <div className="mb-6">
-                    <PasswordInput onChange={onChange} value={form.password} name={'password'} />
-                </div>
-                <div className="mb-6">
-                    <Input
-                        type={'text'}
-                        placeholder={'Введите код из письма'}
-                        onChange={onChange}
-                        value={form.token}
-                        name={'token'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
-                </div>
-
-                <Button type="primary" size="large">
-                    Сохранить
                 </Button>
 
                 <p className={`text mt-20 text_type_main-default text_color_inactive`}>Вспомнили пароль?  <Link to={{ pathname: `/login`, state: history.location.state }} className={`text_color_accent`}>Войти</Link></p>
