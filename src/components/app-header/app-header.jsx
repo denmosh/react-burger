@@ -2,6 +2,7 @@ import React from "react";
 import appHeaderStyles from './app-header.module.css';
 
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {NavLink} from "react-router-dom";
 
 function AppHeader() {
     return (
@@ -12,8 +13,12 @@ function AppHeader() {
                         <li>
                             <div className={`${appHeaderStyles.menuItem} ${appHeaderStyles.active}`}>
                                 <BurgerIcon type={"primary"}/>
-                                <span
-                                    className={`${appHeaderStyles.menuItemText} text_color_primary`}>Конструктор</span>
+                                <NavLink
+                                    exact
+                                    to={{pathname: '/'}}
+                                    className={`${appHeaderStyles.menuItemText} text_color_inactive`}
+                                    activeClassName={appHeaderStyles.activeLink}
+                                >Конструктор</NavLink>
                             </div>
                         </li>
                         <li>
@@ -30,7 +35,11 @@ function AppHeader() {
 
                 <div className={appHeaderStyles.menuItemLast}>
                     <ProfileIcon type={"secondary"}/>
-                    <span className={`${appHeaderStyles.menuItemText} text_color_inactive`}>Личный кабинет</span>
+                    <NavLink
+                        to={{pathname: '/profile'}}
+                        className={`${appHeaderStyles.menuItemText} text_color_inactive`}
+                        activeClassName={appHeaderStyles.activeLink}
+                    >Личный кабинет</NavLink>
                 </div>
             </div>
         </header>
