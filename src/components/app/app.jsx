@@ -7,7 +7,9 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {Provider} from "react-redux";
 import {store} from "../../services/store";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import { NotFound404, HomePage } from "../../pages";
 
 function App(){
 
@@ -15,12 +17,17 @@ function App(){
         <Provider store={store}>
             <DndProvider backend={HTML5Backend}>
                 <AppHeader/>
-                <div className={appStyles.wrapper}>
-                    <section className={appStyles.main}>
-                        <BurgerIngredients/>
-                        <BurgerConstructor/>
-                    </section>
-                </div>
+                <Router>
+                    <Switch>
+                        <Route path="/" exact={true}>
+                            <HomePage/>
+                        </Route>
+                        <Route>
+                            <NotFound404 />
+                        </Route>
+                    </Switch>
+                </Router>
+
             </DndProvider>
         </Provider>
     );
