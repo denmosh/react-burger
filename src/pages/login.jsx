@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {login, register} from "../services/actions/user";
 
 export function LoginPage() {
     const [form, setValue] = useState({ email: '', password: '' });
@@ -10,7 +12,28 @@ export function LoginPage() {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
+    const dispatch = useDispatch();
+    const {user, loginFailed} = useSelector(state => state.user);
+
+    let loginClick = useCallback(
+        e => {
+            e.preventDefault();
+            dispatch(login(form));
+            setValue({ email: '', password: ''});
+        },
+        [form]
+    );
+
     const history = useHistory();
+    if(user.email){
+        return (
+            <Redirect
+                to={{
+                    pathname: '/'
+                }}
+            />
+        );
+    }
     return (
         <div className={`${styles.wrapper} pt-30 mt-15`}>
             <div className={`${styles.container}`}>
@@ -21,7 +44,10 @@ export function LoginPage() {
                 <div className="mb-6">
                     <PasswordInput onChange={onChange} value={form.password} name={'password'} />
                 </div>
-                <Button type="primary" size="large">
+                {loginFailed && (
+                    <p className={`text mb-6 text_type_main-default `}>Ой, возникла ошибка!</p>
+                )}
+                <Button onClick={loginClick} type="primary" size="large">
                     Войти
                 </Button>
                 <p className={`text mt-20 text_type_main-default text_color_inactive`}>Вы — новый пользователь?  <Link to={{ pathname: `/register`, state: history.location.state }} className={`text_color_accent`}>Зарегистрироваться</Link></p>

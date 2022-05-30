@@ -31,3 +31,8 @@ export function setCookie(name, value, props) {
 export function deleteCookie(name) {
     setCookie(name, null, { expires: -1 });
 }
+
+export function setTokenCookie(res) {
+    setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 1200});
+    setCookie('refreshToken', res.refreshToken);
+}
