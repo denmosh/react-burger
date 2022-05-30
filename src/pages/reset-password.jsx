@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {forgotPassword, resetPassword} from "../services/actions/user";
 
 export function ResetPasswordPage() {
 
@@ -11,7 +13,30 @@ export function ResetPasswordPage() {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
+    const dispatch = useDispatch();
+    const {resetPasswordFailed, resetPasswordSuccess} = useSelector(state => state.user);
+
+    let resetPasswordClick = useCallback(
+        e => {
+            e.preventDefault();
+            dispatch(resetPassword(form));
+            setValue({password: '', token: ''});
+        },
+        [form]
+    );
+
     const history = useHistory();
+
+    if(resetPasswordSuccess){
+        return (
+            <Redirect
+                to={{
+                    pathname: '/login'
+                }}
+            />
+        );
+    }
+
     return (
         <div className={`${styles.wrapper} pt-30 mt-15`}>
             <div className={`${styles.container}`}>
@@ -32,8 +57,10 @@ export function ResetPasswordPage() {
                         size={'default'}
                     />
                 </div>
-
-                <Button type="primary" size="large">
+                {resetPasswordFailed && (
+                    <p className={`text mb-6 text_type_main-default `}>ОЙ, Возникла ошибка!</p>
+                )}
+                <Button onClick={resetPasswordClick} type="primary" size="large">
                     Сохранить
                 </Button>
 
