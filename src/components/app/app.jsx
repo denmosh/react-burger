@@ -43,6 +43,9 @@ function App(){
                     <Route path="/profile" exact={true}>
                         <ProfilePage/>
                     </Route>
+                    <Route path="/profile/orders" exact={true}>
+                        <ProfilePage/>
+                    </Route>
                     <Route path="/ingredients/:id" exact={true}>
                         <IngredientPage/>
                     </Route>

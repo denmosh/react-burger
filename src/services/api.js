@@ -5,63 +5,66 @@ const login = 'api/auth/login';
 const register = 'api/auth/register';
 const logout = 'api/auth/logout';
 const token = 'api/auth/token';
+const user = 'api/auth/user';
 const forgotPassword = 'api/password-reset';
 const passwordReset = 'api/password-reset/reset';
 
 
-const getPostOptions = form => {
+const extendOptions = options => {
     return {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
-        body: JSON.stringify(form)
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     }
 }
 
 export const forgotPasswordReq = async form => {
-    return await fetch(API_URL + forgotPassword, getPostOptions(form));
+    return await fetch(API_URL + forgotPassword, extendOptions({body: JSON.stringify(form)}));
 }
 
 export const passwordResetReq = async form => {
-    return await fetch(API_URL + passwordReset, getPostOptions(form));
+    return await fetch(API_URL + passwordReset, extendOptions({body: JSON.stringify(form)}));
 }
 
 export const updateUserReq = async form => {
-
+    return await fetch(API_URL + user, extendOptions({
+        body: JSON.stringify(form),
+        method: 'PATCH',
+        headers: {
+            Authorization: 'Bearer ' + getCookie('token')
+        },
+    }));
 }
 
 export const tokenReq = async form => {
-
+    return await fetch(API_URL + token, extendOptions({body: JSON.stringify(form)}));
 }
 
 export const logoutReq = async form => {
-
+    return await fetch(API_URL + logout, extendOptions({body: JSON.stringify(form)}));
 }
 
 export const getUserReq = async () =>
-    await fetch('https://cosmic.nomoreparties.space/api/user', {
+    await fetch(API_URL + user, extendOptions({
         method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: 'Bearer ' + getCookie('token')
         },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer'
-    });
+    })
+    );
 
 export const loginReq = async form => {
-    return await fetch(API_URL + login, getPostOptions(form));
+    return await fetch(API_URL + login, extendOptions({body: JSON.stringify(form)}));
 };
 
 export const registerReq = async form => {
-    return await fetch(API_URL + register, getPostOptions(form));
+    return await fetch(API_URL + register, extendOptions({body: JSON.stringify(form)}));
 };

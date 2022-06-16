@@ -1,20 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {
-    forgotPasswordFailed,
-    forgotPasswordRequest,
-    forgotPasswordSuccess,
-    getUserFailed,
-    getUserRequest,
-    getUserSuccess,
-    loginFailed,
-    loginRequest,
-    loginSuccess, logoutFailed, logoutRequest, logoutSuccess,
-    resetPasswordFailed,
-    resetPasswordRequest,
-    resetPasswordSuccess,
-    registerFailed,
-    registerRequest,
-    registerSuccess, updateUserFailed, updateUserRequest, updateUserSuccess
+
+    forgotPasswordFailed, forgotPasswordRequest, forgotPasswordSuccess,
+
+    getUserFailed, getUserRequest, getUserSuccess,
+
+    loginFailed, loginRequest, loginSuccess,
+
+    logoutFailed, logoutRequest, logoutSuccess,
+
+    resetPasswordFailed, resetPasswordRequest, resetPasswordSuccess,
+
+    registerFailed, registerRequest, registerSuccess,
+
+    updateUserFailed, updateUserRequest, updateUserSuccess
+
 } from "../actions/user";
 
 const userInitialState = {
@@ -63,6 +63,7 @@ export const user = createReducer(userInitialState, (builder) => {
         .addCase(getUserSuccess, (state, action) => {
             return {
                 ...state,
+                user: action.payload,
                 getUserRequest: false,
             }
         })

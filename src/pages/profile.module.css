@@ -19,9 +19,7 @@
 .navInfo{
     opacity: 40%;
 }
-.borderDashedAccent{
-    border: 2px dashed var(--colors-interface-accent);
-}
+
 .borderTopNone{
     border-top: 0px;
 }
@@ -30,4 +28,7 @@
 }
 .activeLink{
     color: var(--text-primary-color) !important
+}
+.logout{
+    cursor: pointer;
 }
