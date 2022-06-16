@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
-import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {login, register} from "../services/actions/user";
@@ -39,7 +39,16 @@ export function LoginPage() {
             <div className={`${styles.container}`}>
                 <p className={`text text_type_main-medium mb-6`}>Вход</p>
                 <div className="mb-6">
-                    <EmailInput onChange={onChange} size={undefined} value={form.email} name={'email'} />
+                    <Input
+                        type={'email'}
+                        placeholder={'Email'}
+                        onChange={onChange}
+                        value={form.email}
+                        name={'email'}
+                        error={false}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
                 </div>
                 <div className="mb-6">
                     <PasswordInput onChange={onChange} value={form.password} name={'password'} />
