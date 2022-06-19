@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {setIngredient, clearIngredient} from "../../services/actions/current-ingredient";
+import {useHistory, useLocation} from 'react-router-dom';
 import {useDrag} from "react-dnd";
 
 function BurgerIngredient(props) {
@@ -16,8 +17,10 @@ function BurgerIngredient(props) {
     const { ingredient } = props;
     const[count, setCount] = useState(0);
 
-    const {ingredients} = useSelector(store=> store.burgerConstructor);
+    const {ingredients} = useSelector(store => store.burgerConstructor);
 
+    const history = useHistory();
+    const location = useLocation();
     const [{ isDrag }, drag] = useDrag({
         type: "ingredient",
         item: ingredient,
@@ -34,6 +37,11 @@ function BurgerIngredient(props) {
     const dispatch = useDispatch();
 
     const handleOpenModal = () => {
+
+        history.push({
+            pathname: `/ingredients/${ props.ingredient._id }`,
+            state: { background: location }
+        })
         dispatch(setIngredient(props.ingredient));
         setIsOpenModal(true);
     }

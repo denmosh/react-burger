@@ -45,6 +45,14 @@ export const logoutRequest = createAction('LOGOUT_REQUEST');
 export const logoutSuccess = createAction('LOGOUT_SUCCESS');
 export const logoutFailed = createAction('LOGOUT_FAILED');
 
+export function handleError(dispatch, error, action, params = null){
+    if (error && error.message) {
+        if(error.message === "jwt expired" || error.message === "jwt malformed"){
+            dispatch(refreshToken(action, params));
+        }
+    }
+}
+
 export function getUser() {
 
     return function (dispatch) {
@@ -54,6 +62,7 @@ export function getUser() {
         getUserReq().then(getResponse).then((res) => {
             dispatch(getUserSuccess(res.user));
         }).catch((error) => {
+            handleError(dispatch, error, getUser);
             dispatch(getUserFailed(error));
         });
     }
@@ -68,6 +77,7 @@ export function updateUser(form) {
         updateUserReq(form).then(getResponse).then((res) => {
             dispatch(updateUserSuccess(res.user));
         }).catch((error) => {
+            handleError(dispatch, error, updateUser, form)
             dispatch(updateUserFailed(error));
         });
     }
@@ -112,13 +122,15 @@ export function logout(form) {
     }
 }
 
-export function refreshToken(form) {
+export function refreshToken(action, params = null) {
 
     return function (dispatch) {
         dispatch(tokenRequest());
-        tokenReq(form).then(getResponse).then((res) => {
-            dispatch(tokenSuccess(res.user));
+        console.log("refreshing token");
+        tokenReq().then(getResponse).then((res) => {
             setTokenCookie(res);
+            dispatch(tokenSuccess());
+            dispatch(params ? action(params) : action());
         }).catch((error) => {
             dispatch(tokenFailed(error));
         });

@@ -2,6 +2,8 @@ import {createAction} from "@reduxjs/toolkit";
 import {API_URL} from "../../constants/constants";
 import {getResponse} from "./common";
 import {clearIngredients} from "./burger-constructor";
+import {createOrderReq} from "../api";
+import {handleError} from "./user";
 
 export const createOrderRequest = createAction('CREATE_ORDER_REQUEST');
 export const createOrderSuccess = createAction('CREATE_ORDER_SUCCESS');
@@ -16,20 +18,15 @@ export function createOrder(ingredients) {
 
         dispatch(createOrderRequest());
 
-        fetch(API_URL + "api/orders", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ingredients: ingredients})
-        })
+        createOrderReq({ingredients: ingredients})
             .then(getResponse)
             .then((res) => {
                 dispatch(createOrderSuccess(res));
                 dispatch(clearIngredients());
                 dispatch(showOrderModal());
             }).catch((error) => {
-            dispatch(createOrderFailed());
+                handleError(dispatch, error, createOrder, ingredients);
+                dispatch(createOrderFailed());
         });
     }
 }

@@ -4,6 +4,7 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import {Link, Redirect, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {register} from "../services/actions/user";
+import {getCookie} from "../services/utils";
 
 
 export function RegisterPage() {
@@ -26,7 +27,7 @@ export function RegisterPage() {
     );
 
     const history = useHistory();
-    if(user.email){
+    if(user.email || getCookie("refreshToken") !== undefined){
         return (
             <Redirect
                 to={{

@@ -1,6 +1,5 @@
 export function getResponse(res) {
-    if (res.ok) {
-        return res.json();
-    }
-    return Promise.reject(`Ошибка ${res.status}`);
+    return res.json().then(json => {
+        return res.ok ? json : Promise.reject(json);
+    });
 }

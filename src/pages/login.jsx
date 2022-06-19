@@ -1,13 +1,15 @@
 import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, Redirect, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {login, register} from "../services/actions/user";
+import {login} from "../services/actions/user";
+import {getCookie} from "../services/utils";
 
 export function LoginPage() {
     const [form, setValue] = useState({ email: '', password: '' });
 
+    const { state } = useLocation();
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
@@ -25,12 +27,10 @@ export function LoginPage() {
     );
 
     const history = useHistory();
-    if(user.email){
+    if(user.email || getCookie("refreshToken") !== undefined){
         return (
             <Redirect
-                to={{
-                    pathname: '/'
-                }}
+                to={ state?.from || '/' }
             />
         );
     }

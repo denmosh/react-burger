@@ -1,9 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, Redirect, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {forgotPassword, register} from "../services/actions/user";
+import {getCookie} from "../services/utils";
 
 export function ForgotPasswordPage() {
 
@@ -14,7 +15,7 @@ export function ForgotPasswordPage() {
     };
 
     const dispatch = useDispatch();
-    const {forgotPasswordFailed, forgotPasswordSuccess} = useSelector(state => state.user);
+    const {user, forgotPasswordFailed, forgotPasswordSuccess} = useSelector(state => state.user);
 
     let forgotPasswordClick = useCallback(
         e => {
@@ -30,7 +31,18 @@ export function ForgotPasswordPage() {
         return (
             <Redirect
                 to={{
-                    pathname: '/reset-password'
+                    pathname: '/reset-password',
+                    state: { from: '/forgot-password' }
+                }}
+            />
+        );
+    }
+
+    if(user.email || getCookie("refreshToken") !== undefined){
+        return (
+            <Redirect
+                to={{
+                    pathname: '/'
                 }}
             />
         );

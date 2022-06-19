@@ -14,7 +14,9 @@ export function ProfilePage() {
     const {user, updateUserFailed, logoutFailed} = useSelector(state => state.user);
 
     useEffect(()=> {
-        dispatch(getUser());
+        if(user.email === ''){
+            dispatch(getUser());
+        }
     }, [])
 
     useEffect(()=> {
@@ -37,7 +39,7 @@ export function ProfilePage() {
         e => {
             e.preventDefault();
             dispatch(updateUser(form));
-            setValue({ ...user, password: ''});
+            // setValue({ ...user, password: ''});
         },
         [form, user]
     );

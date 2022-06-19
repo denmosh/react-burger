@@ -16,6 +16,7 @@ import {
     ResetPasswordPage,
     ProfilePage, IngredientPage
 } from "../../pages";
+import {ProtectedRoute} from "../protected-route/protected-route";
 
 function App(){
 
@@ -40,12 +41,12 @@ function App(){
                     <Route path="/reset-password" exact={true}>
                         <ResetPasswordPage/>
                     </Route>
-                    <Route path="/profile" exact={true}>
+                    <ProtectedRoute path="/profile" exact={true}>
                         <ProfilePage/>
-                    </Route>
-                    <Route path="/profile/orders" exact={true}>
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile/orders" exact={true}>
                         <ProfilePage/>
-                    </Route>
+                    </ProtectedRoute>
                     <Route path="/ingredients/:id" exact={true}>
                         <IngredientPage/>
                     </Route>

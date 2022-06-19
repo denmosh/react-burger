@@ -8,6 +8,7 @@ const token = 'api/auth/token';
 const user = 'api/auth/user';
 const forgotPassword = 'api/password-reset';
 const passwordReset = 'api/password-reset/reset';
+const order = 'api/orders';
 
 
 const extendOptions = options => {
@@ -44,8 +45,8 @@ export const updateUserReq = async form => {
     }));
 }
 
-export const tokenReq = async form => {
-    return await fetch(API_URL + token, extendOptions({body: JSON.stringify(form)}));
+export const tokenReq = async () => {
+    return await fetch(API_URL + token, extendOptions({body: JSON.stringify({token: getCookie('refreshToken')})}));
 }
 
 export const logoutReq = async form => {
@@ -67,4 +68,13 @@ export const loginReq = async form => {
 
 export const registerReq = async form => {
     return await fetch(API_URL + register, extendOptions({body: JSON.stringify(form)}));
+};
+
+export const createOrderReq = async form => {
+    return await fetch(API_URL + order, extendOptions({
+        body: JSON.stringify(form),
+        headers: {
+            Authorization: 'Bearer ' + getCookie('token')
+        },
+    }));
 };
