@@ -1,7 +1,16 @@
 import {createAction} from "@reduxjs/toolkit";
 
 import {getResponse} from "./common";
-import {forgotPasswordReq, getUserReq, loginReq, logoutReq, passwordResetReq, registerReq, updateUserReq} from "../api";
+import {
+    forgotPasswordReq,
+    getUserReq,
+    loginReq,
+    logoutReq,
+    passwordResetReq,
+    registerReq,
+    tokenReq,
+    updateUserReq
+} from "../api";
 import {deleteCookie, setCookie, setTokenCookie} from "../utils";
 
 export const getUserRequest = createAction('GET_USER_REQUEST');
@@ -99,6 +108,19 @@ export function logout(form) {
             deleteCookie('refreshToken');
         }).catch((error) => {
             dispatch(logoutFailed(error));
+        });
+    }
+}
+
+export function refreshToken(form) {
+
+    return function (dispatch) {
+        dispatch(tokenRequest());
+        tokenReq(form).then(getResponse).then((res) => {
+            dispatch(tokenSuccess(res.user));
+            setTokenCookie(res);
+        }).catch((error) => {
+            dispatch(tokenFailed(error));
         });
     }
 }

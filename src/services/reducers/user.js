@@ -13,7 +13,7 @@ import {
 
     registerFailed, registerRequest, registerSuccess,
 
-    updateUserFailed, updateUserRequest, updateUserSuccess
+    updateUserFailed, updateUserRequest, updateUserSuccess, tokenRequest, tokenSuccess, tokenFailed
 
 } from "../actions/user";
 
@@ -135,6 +135,28 @@ export const user = createReducer(userInitialState, (builder) => {
                 ...state,
                 logoutFailed: true,
                 logoutRequest: false,
+            }
+        })
+
+        .addCase(tokenRequest, (state, action) => {
+            return {
+                ...state,
+                tokenRequest: true,
+                tokenFailed: false,
+            }
+        })
+        .addCase(tokenSuccess, (state, action) => {
+            return {
+                ...state,
+                tokenFailed: false,
+                tokenRequest: false,
+            }
+        })
+        .addCase(tokenFailed, (state, action) => {
+            return {
+                ...state,
+                tokenFailed: true,
+                tokenRequest: false,
             }
         })
         .addCase(loginRequest, (state, action) => {
