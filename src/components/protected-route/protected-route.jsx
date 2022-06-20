@@ -2,6 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "../../services/actions/user";
+import {getCookie} from "../../services/utils";
 
 export function ProtectedRoute({ children, ...rest }) {
 
@@ -14,10 +15,11 @@ export function ProtectedRoute({ children, ...rest }) {
         if(user.email){
             setUserLoaded(true);
         }else{
-            dispatch(getUser());
+            if(getCookie('refreshToken')){
+                dispatch(getUser());
+            }
             setUserLoaded(true);
         }
-
     };
 
     useEffect(() => {

@@ -18,7 +18,6 @@ export function IngredientPage() {
     },[])
 
     useEffect(()=>{
-        console.log(id);
         if(ingredients.length !== 0){
             setCurrentIngredient(ingredients.find(x => x._id === id));
             dispatch(setIngredient(ingredient));

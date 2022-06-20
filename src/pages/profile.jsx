@@ -39,7 +39,6 @@ export function ProfilePage() {
         e => {
             e.preventDefault();
             dispatch(updateUser(form));
-            // setValue({ ...user, password: ''});
         },
         [form, user]
     );

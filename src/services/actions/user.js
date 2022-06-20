@@ -126,7 +126,6 @@ export function refreshToken(action, params = null) {
 
     return function (dispatch) {
         dispatch(tokenRequest());
-        console.log("refreshing token");
         tokenReq().then(getResponse).then((res) => {
             setTokenCookie(res);
             dispatch(tokenSuccess());
