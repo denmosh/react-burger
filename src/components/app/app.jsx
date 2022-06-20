@@ -1,12 +1,9 @@
 import React from 'react';
 import AppHeader from "../app-header/app-header";
 
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import {Provider} from "react-redux";
-import {store} from "../../services/store";
-import {Route, Switch, BrowserRouter as Router} from 'react-router-dom';
-
+import { useDispatch} from "react-redux";
+import { Route, Switch, useHistory, useLocation} from "react-router-dom";
+import Modal from '../modal/modal';
 import {
     NotFound404,
     HomePage,
@@ -14,18 +11,27 @@ import {
     RegisterPage,
     ForgotPasswordPage,
     ResetPasswordPage,
-    ProfilePage, IngredientPage
+    ProfilePage,
+    IngredientPage
 } from "../../pages";
 import {ProtectedRoute} from "../protected-route/protected-route";
+import {clearIngredient} from "../../services/actions/current-ingredient";
 
 function App(){
+    const history = useHistory();
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const background = location.state && location.state.background;
 
+    const onClose = e => {
+        e.stopPropagation();
+        dispatch(clearIngredient());
+        history.goBack();
+    };
     return (
-        <Router>
-        <Provider store={store}>
-            <DndProvider backend={HTML5Backend}>
+            <>
                 <AppHeader/>
-                <Switch>
+                <Switch location={background || location}>
                     <Route path="/" exact={true}>
                         <HomePage/>
                     </Route>
@@ -54,10 +60,15 @@ function App(){
                         <NotFound404 />
                     </Route>
                 </Switch>
-            </DndProvider>
-        </Provider>
-        </Router>
 
+                {background && (
+                    <Route path="/ingredients/:id" exact={true}>
+                        <Modal onClose={onClose} title={"Детали ингредиента"}>
+                            <IngredientPage/>
+                        </Modal>
+                    </Route>
+                )}
+        </>
     );
 }
 

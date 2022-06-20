@@ -42,8 +42,6 @@ function BurgerIngredient(props) {
             pathname: `/ingredients/${ props.ingredient._id }`,
             state: { background: location }
         })
-        dispatch(setIngredient(props.ingredient));
-        setIsOpenModal(true);
     }
     const handleCloseModal = () => {
         dispatch(clearIngredient());
