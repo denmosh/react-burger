@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppHeader from "../app-header/app-header";
 
 import { useDispatch} from "react-redux";
@@ -16,12 +16,17 @@ import {
 } from "../../pages";
 import {ProtectedRoute} from "../protected-route/protected-route";
 import {clearIngredient} from "../../services/actions/current-ingredient";
+import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
 
 function App(){
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
     const background = location.state && location.state.background;
+
+    useEffect(()=>{
+        dispatch(getBurgerIngredients());
+    },[])
 
     const onClose = e => {
         e.stopPropagation();

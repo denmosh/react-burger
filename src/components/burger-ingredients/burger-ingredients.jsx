@@ -14,10 +14,6 @@ function BurgerIngredients(){
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{
-        dispatch(getBurgerIngredients());
-    },[])
-
     const {ingredients} = useSelector(store => store.burgerIngredients);
 
     const setActiveTab = (value) => {
