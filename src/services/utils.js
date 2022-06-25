@@ -29,10 +29,10 @@ export function setCookie(name, value, props) {
 }
 
 export function deleteCookie(name) {
-    setCookie(name, null, { expires: -1 });
+    setCookie(name, null, {expires: -1, path: '/' });
 }
 
 export function setTokenCookie(res) {
-    setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 1200});
-    setCookie('refreshToken', res.refreshToken);
+    setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 1200, path: '/' });
+    setCookie('refreshToken', res.refreshToken, { path: '/' });
 }
