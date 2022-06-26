@@ -7,6 +7,7 @@ import ConstructorItem from "../constructor-item/constructor-item";
 
 import {useDispatch, useSelector} from "react-redux";
 import {countOrderTotal, createOrder, closeOderModal} from "../../services/actions/order-details";
+import { useHistory } from "react-router-dom";
 import {useDrop} from "react-dnd";
 import {
     addIngredient,
@@ -14,6 +15,7 @@ import {
     removeIngredient,
     replaceIngredientBun
 } from "../../services/actions/burger-constructor";
+import {getCookie} from "../../services/utils";
 
 
 function BurgerConstructor() {
@@ -22,9 +24,10 @@ function BurgerConstructor() {
 
     const {ingredients} = useSelector(store => store.burgerConstructor);
     const {total, orderRequest, orderModal} = useSelector(store => store.orderDetails);
+    const {user } = useSelector(store => store.user);
 
     const bun = ingredients.filter(({type}) => type === "bun")[0];
-
+    const history = useHistory();
     const [, drop] = useDrop({
         accept: "ingredient",
         collect: monitor => ({
@@ -56,7 +59,11 @@ function BurgerConstructor() {
     }
 
     const handleClickOrder = () =>{
-        dispatch(createOrder(ingredients.map(({_id}) => _id)));
+        if(user.email || getCookie("refreshToken") !== undefined){
+            dispatch(createOrder(ingredients.map(({_id}) => _id)));
+        }else{
+            history.push("/login", {state: { from: '/' }});
+        }
     }
 
     const modal = (

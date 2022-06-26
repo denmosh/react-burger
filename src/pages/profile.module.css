@@ -1,0 +1,34 @@
+.wrapper{
+    display: flex;
+    justify-content: center;
+}
+.container{
+    width: 1240px;
+    display: flex;
+    justify-content: flex-start;
+}
+.container :global(.input_size_default) {
+    width: 480px;
+}
+.nav{
+    width: 320px;
+}
+.nav a{
+    text-decoration: none;
+}
+.navInfo{
+    opacity: 40%;
+}
+
+.borderTopNone{
+    border-top: 0px;
+}
+.nav-item{
+
+}
+.activeLink{
+    color: var(--text-primary-color) !important
+}
+.logout{
+    cursor: pointer;
+}

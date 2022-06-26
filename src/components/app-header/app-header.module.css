@@ -36,6 +36,10 @@
 
 .menuItemText{
     composes: ml-2 from box;
+    text-decoration: none;
 }
 
+.activeLink{
+    color: var(--text-primary-color) !important
+}
 
