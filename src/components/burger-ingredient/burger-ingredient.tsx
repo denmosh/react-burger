@@ -6,13 +6,15 @@ import ingredientPropTypes from "../../constants/ingredient-prop-types";
 import { useSelector} from "react-redux";
 import {useHistory, useLocation} from 'react-router-dom';
 import {useDrag} from "react-dnd";
+import {useAppSelector} from "../../hooks/hooks";
+import {IIngredient} from "../../services/interfaces/interfaces";
 
-function BurgerIngredient(props) {
+function BurgerIngredient(props:{ingredient:IIngredient}) {
 
     const { ingredient } = props;
-    const[count, setCount] = useState(0);
+    const[count, setCount] = useState<number>(0);
 
-    const {ingredients} = useSelector(store => store.burgerConstructor);
+    const {ingredients} = useAppSelector(store => store.burgerConstructor);
 
     const history = useHistory();
     const location = useLocation();
@@ -25,7 +27,7 @@ function BurgerIngredient(props) {
     });
 
     useEffect(()=>{
-        setCount(ingredients.filter((item) => item._id === ingredient._id).length);
+        setCount(ingredients.filter((item:IIngredient) => item._id === ingredient._id).length);
     }, [ingredients])
 
 
