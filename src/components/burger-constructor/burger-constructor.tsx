@@ -16,24 +16,25 @@ import {
     replaceIngredientBun
 } from "../../services/actions/burger-constructor";
 import {getCookie} from "../../services/utils";
-
+import {useAppDispatch} from "../../hooks/hooks";
+import {IIngredient, IIngredientUniq} from "../../services/interfaces/interfaces";
 
 function BurgerConstructor() {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch()
 
-    const {ingredients} = useSelector(store => store.burgerConstructor);
-    const {total, orderRequest, orderModal} = useSelector(store => store.orderDetails);
-    const {user } = useSelector(store => store.user);
+    const {ingredients} = useSelector((store:any) => store.burgerConstructor);
+    const {total, orderRequest, orderModal} = useSelector((store:any) => store.orderDetails);
+    const {user} = useSelector((store:any) => store.user);
 
-    const bun = ingredients.filter(({type}) => type === "bun")[0];
+    const bun = ingredients.filter(({type}:{type:string}) => type === "bun")[0];
     const history = useHistory();
     const [, drop] = useDrop({
         accept: "ingredient",
         collect: monitor => ({
             isHover: monitor.isOver(),
         }),
-        drop(item) {
+        drop(item:any) {
             if(item.type === "bun"){
                 if(!!bun){
                     dispatch(replaceIngredientBun(item))
@@ -54,13 +55,13 @@ function BurgerConstructor() {
     const handleCloseModal = () => {
         dispatch(closeOderModal());
     }
-    const handleRemoveIngredient = (uuid) => {
+    const handleRemoveIngredient = (uuid:string) => {
         dispatch(removeIngredient({uuid: uuid}));
     }
 
     const handleClickOrder = () =>{
         if(user.email || getCookie("refreshToken") !== undefined){
-            dispatch(createOrder(ingredients.map(({_id}) => _id)));
+            dispatch(createOrder(ingredients.map(({_id}:{_id:string}) => _id)));
         }else{
             history.push("/login", {state: { from: '/' }});
         }
@@ -82,7 +83,7 @@ function BurgerConstructor() {
 
     return (
         <div ref={drop} className={`mt-25 pl-4`}>
-            <div className={style.constructor}>
+            <div className={`${style.constructor}`}>
                 {placeholder}
                 <div className={`${style.wrapper} mr-4`}>
                     {bun && (
@@ -96,7 +97,7 @@ function BurgerConstructor() {
                     )}
                 </div>
                 <div className={`${style.constructor} ${style.main}`}>
-                    {ingredients.filter(({type}) => type !== "bun").map((ingredient, index) => {
+                    {ingredients.filter(({type}:{type:string}) => type !== "bun").map((ingredient:IIngredientUniq, index:number) => {
                         return (
                             <ConstructorItem key={ingredient.uuid} ingredient={ingredient} index={index + 2} handleRemoveItem={handleRemoveIngredient} />
                         )
@@ -122,7 +123,7 @@ function BurgerConstructor() {
                     <span className="text_type_digits-medium mr-2">{total}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button onClick={handleClickOrder} size={"large"} disabled={bun === undefined} type={"primary"}>Оформить заказ</Button>
+                <Button onClick={handleClickOrder} size={"large"} disabled={bun === undefined} name={"Оформить заказ"} type={"primary"}></Button>
 
             </div>
             {orderModal && modal}
