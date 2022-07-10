@@ -1,10 +1,10 @@
-import { Redirect, Route } from 'react-router-dom';
-import {ReactNode, useEffect, useState} from 'react';
+import {Redirect, Route, RouteProps} from 'react-router-dom';
+import {FC, ReactNode, useEffect, useState} from 'react';
 import {getUser} from "../../services/actions/user";
 import {getCookie} from "../../services/utils";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
-export function ProtectedRoute({ children, ...rest }: {children: ReactNode, [x:string]:any}) {
+export const ProtectedRoute:FC<RouteProps> = ({ children, ...rest })=> {
 
     let { user,  getUserRequest, tokenRequest} = useAppSelector(store => store.user)
     const [isUserLoaded, setUserLoaded] = useState(false);
@@ -32,7 +32,7 @@ export function ProtectedRoute({ children, ...rest }: {children: ReactNode, [x:s
     return (
         <Route
             {...rest}
-            render={({ location }) =>
+            render={({ location }):any =>
                 user.email ? (
                     children
                 ) : (
