@@ -35,7 +35,7 @@ export function ProfilePage() {
         [form]
     );
 
-    const onClickSave = useCallback(
+    const onSubmit = useCallback(
         (e:React.SyntheticEvent) => {
             e.preventDefault();
             dispatch(updateUser(form));
@@ -55,13 +55,13 @@ export function ProfilePage() {
 
     const buttonCancel = (
         // @ts-ignore
-        <Button onClick={onClickCancel} type="secondary" size="large">
+        <Button htmlType={"button"} onClick={onClickCancel} type="secondary" size="large">
             Отмена
         </Button>
     );
     const buttonSave = (
         // @ts-ignore
-    <Button onClick={onClickSave} type="primary" size="large">
+    <Button htmlType={"submit"} type="primary" size="large">
         Сохранить
     </Button>
     );
@@ -105,30 +105,32 @@ export function ProfilePage() {
 
                 </section>
                 <section>
-                    <div className="mb-6">
-                        <Input
-                            type={'text'}
-                            placeholder={'Имя'}
-                            onChange={onChange}
-                            value={form.name}
-                            name={'name'}
-                            error={false}
-                            errorText={'Ошибка'}
-                            size={'default'}
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <EmailInput onChange={onChange} size={undefined} value={form.email} name={'email'} />
-                    </div>
-                    <div className="mb-6">
-                        <PasswordInput onChange={onChange} value={form.password} name={'password'} />
-                    </div>
-                    {updateUserFailed && (
-                        <p className={`text mb-6 text_type_main-default `}>Ой, возникла ошибка!</p>
-                    )}
-                    {buttonCancel}
-                    <span className={`m-4`}></span>
-                    {buttonSave}
+                    <form action="" onSubmit={onSubmit}>
+                        <div className="mb-6">
+                            <Input
+                                type={'text'}
+                                placeholder={'Имя'}
+                                onChange={onChange}
+                                value={form.name}
+                                name={'name'}
+                                error={false}
+                                errorText={'Ошибка'}
+                                size={'default'}
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <EmailInput onChange={onChange} size={undefined} value={form.email} name={'email'} />
+                        </div>
+                        <div className="mb-6">
+                            <PasswordInput onChange={onChange} value={form.password} name={'password'} />
+                        </div>
+                        {updateUserFailed && (
+                            <p className={`text mb-6 text_type_main-default `}>Ой, возникла ошибка!</p>
+                        )}
+                        {buttonCancel}
+                        <span className={`m-4`}></span>
+                        {buttonSave}
+                    </form>
                 </section>
             </div>
         </div>

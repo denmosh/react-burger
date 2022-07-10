@@ -6,7 +6,7 @@ import {IError, IIngredient} from "../interfaces/interfaces";
 export const getIngredients = createAction('GET_INGREDIENTS');
 export const getIngredientsSuccess = createAction<IIngredient[]>('GET_INGREDIENTS_SUCCESS');
 export const getIngredientsFailed = createAction<IError>('GET_INGREDIENTS_FAILED');
-export const updateActiveTab = createAction<string, 'UPDATE_ACTIVE_TAB'>('UPDATE_ACTIVE_TAB');
+export const updateActiveTab = createAction<string>('UPDATE_ACTIVE_TAB');
 
 export function getBurgerIngredients() {
 

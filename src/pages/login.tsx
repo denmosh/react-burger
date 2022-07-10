@@ -17,7 +17,7 @@ export function LoginPage() {
     const dispatch = useAppDispatch();
     const {user, loginFailed} = useAppSelector(state => state.user);
 
-    let loginClick = useCallback(
+    let onSubmit = useCallback(
         (e:React.SyntheticEvent) => {
             e.preventDefault();
             dispatch(login(form));
@@ -37,36 +37,39 @@ export function LoginPage() {
 
     const button = (
         // @ts-ignore
-        <Button onClick={loginClick} type="primary" size="large">
+        <Button htmlType={"submit"} type="primary" size="large">
             Войти
         </Button>
     );
     return (
         <div className={`${styles.wrapper} pt-30 mt-15`}>
             <div className={`${styles.container}`}>
-                <p className={`text text_type_main-medium mb-6`}>Вход</p>
-                <div className="mb-6">
-                    <Input
-                        type={'email'}
-                        placeholder={'Email'}
-                        onChange={onChange}
-                        value={form.email}
-                        name={'email'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
-                </div>
-                <div className="mb-6">
-                    <PasswordInput onChange={onChange} value={form.password} name={'password'} />
-                </div>
-                {loginFailed && (
-                    <p className={`text mb-6 text_type_main-default `}>Ой, возникла ошибка!</p>
-                )}
-                {button}
-                <p className={`text mt-20 text_type_main-default text_color_inactive`}>Вы — новый пользователь?  <Link to={{ pathname: `/register`, state: history.location.state }} className={`text_color_accent`}>Зарегистрироваться</Link></p>
-                <p className={`text mt-4 text_type_main-default text_color_inactive`}>Забыли пароль? <Link to={{ pathname: `/forgot-password`, state: history.location.state }} className={`text_color_accent`}>Восстановить пароль</Link></p>
-            </div>
+                <form action="" onSubmit={onSubmit}>
+                    <p className={`text text_type_main-medium mb-6`}>Вход</p>
+                    <div className="mb-6">
+                        <Input
+                            type={'email'}
+                            placeholder={'Email'}
+                            onChange={onChange}
+                            value={form.email}
+                            name={'email'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
+                    <div className="mb-6">
+                        <PasswordInput onChange={onChange} value={form.password} name={'password'} />
+                    </div>
+                    {loginFailed && (
+                        <p className={`text mb-6 text_type_main-default `}>Ой, возникла ошибка!</p>
+                    )}
+                    {button}
+                    <p className={`text mt-20 text_type_main-default text_color_inactive`}>Вы — новый пользователь?  <Link to={{ pathname: `/register`, state: history.location.state }} className={`text_color_accent`}>Зарегистрироваться</Link></p>
+                    <p className={`text mt-4 text_type_main-default text_color_inactive`}>Забыли пароль? <Link to={{ pathname: `/forgot-password`, state: history.location.state }} className={`text_color_accent`}>Восстановить пароль</Link></p>
+
+                </form>
+             </div>
 
         </div>
     );

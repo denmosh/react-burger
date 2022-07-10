@@ -18,7 +18,7 @@ export function ForgotPasswordPage() {
     const dispatch = useAppDispatch();
     const {user, forgotPasswordFailed, forgotPasswordSuccess} = useAppSelector(state => state.user);
 
-    let forgotPasswordClick = useCallback(
+    let onSubmit = useCallback(
         (e: React.SyntheticEvent) => {
             e.preventDefault();
             dispatch(forgotPassword(form));
@@ -52,31 +52,33 @@ export function ForgotPasswordPage() {
 
 const button = (
     // @ts-ignore
-    <Button onClick={forgotPasswordClick} type="primary" size="large">
+    <Button htmlType={"submit"} type="primary" size="large">
         Восстановить
     </Button>
 );
     return (
         <div className={`${styles.wrapper} pt-30 mt-15`}>
             <div className={`${styles.container}`}>
-                <p className={`text text_type_main-medium mb-6`}>Восстановление пароля</p>
-                <div className="mb-6">
-                    <Input
-                        type={'email'}
-                        placeholder={'Укажите e-mail'}
-                        onChange={onChange}
-                        value={form.email}
-                        name={'email'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
-                </div>
-                {forgotPasswordFailed && (
-                    <p className={`text mb-6 text_type_main-default `}>ОЙ, Возникла ошибка!</p>
-                )}
-                {button}
-                <p className={`text mt-20 text_type_main-default text_color_inactive`}>Вспомнили пароль?  <Link to={{ pathname: `/login`, state: history.location.state }} className={`text_color_accent`}>Войти</Link></p>
+                <form action="" onSubmit={onSubmit}>
+                    <p className={`text text_type_main-medium mb-6`}>Восстановление пароля</p>
+                    <div className="mb-6">
+                        <Input
+                            type={'email'}
+                            placeholder={'Укажите e-mail'}
+                            onChange={onChange}
+                            value={form.email}
+                            name={'email'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
+                    {forgotPasswordFailed && (
+                        <p className={`text mb-6 text_type_main-default `}>ОЙ, Возникла ошибка!</p>
+                    )}
+                    {button}
+                    <p className={`text mt-20 text_type_main-default text_color_inactive`}>Вспомнили пароль?  <Link to={{ pathname: `/login`, state: history.location.state }} className={`text_color_accent`}>Войти</Link></p>
+                </form>
             </div>
         </div>
     );
