@@ -7,14 +7,23 @@ import {
     showOrderModal, closeOderModal
 } from "../actions/order-details";
 
-
-const orderDetailsInitialState = {
-    order:{},
+interface IOrderDetails {
+    order:null|{
+        number: number
+    },
+    orderRequest: boolean,
+    orderFailed: boolean,
+    orderModal: boolean,
+    total: number,
+}
+const orderDetailsInitialState:IOrderDetails = {
+    order:null,
     orderRequest: false,
     orderFailed: false,
     orderModal: false,
     total: 0,
 }
+
 
 export const orderDetails = createReducer(orderDetailsInitialState, (builder) => {
     builder

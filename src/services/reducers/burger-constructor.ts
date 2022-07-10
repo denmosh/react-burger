@@ -6,11 +6,14 @@ import {
     removeIngredient,
     replaceIngredientBun
 } from "../actions/burger-constructor";
-import uuid from 'react-uuid';
+import  { v4 as uuid } from 'uuid';
+import {IIngredient, IIngredientUniq} from "../interfaces/interfaces";
 
 
-
-const burgerConstructorInitialState = {
+interface IBurgerConstructor {
+    ingredients: Array<IIngredientUniq>
+}
+const burgerConstructorInitialState: IBurgerConstructor = {
     ingredients: [],
 }
 

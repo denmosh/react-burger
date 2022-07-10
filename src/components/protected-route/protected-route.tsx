@@ -1,15 +1,15 @@
 import { Redirect, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {ReactNode, useEffect, useState} from 'react';
 import {getUser} from "../../services/actions/user";
 import {getCookie} from "../../services/utils";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
-export function ProtectedRoute({ children, ...rest }) {
+export function ProtectedRoute({ children, ...rest }: {children: ReactNode, [x:string]:any}) {
 
-    let { user,  getUserRequest, tokenRequest} = useSelector(store => store.user)
+    let { user,  getUserRequest, tokenRequest} = useAppSelector(store => store.user)
     const [isUserLoaded, setUserLoaded] = useState(false);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const init = () => {
         if(user.email){

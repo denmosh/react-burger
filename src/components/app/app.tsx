@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 import AppHeader from "../app-header/app-header";
-
-import { useDispatch} from "react-redux";
 import { Route, Switch, useHistory, useLocation} from "react-router-dom";
+import { Location } from "history";
 import Modal from '../modal/modal';
 import {
     NotFound404,
@@ -17,19 +16,24 @@ import {
 import {ProtectedRoute} from "../protected-route/protected-route";
 import {clearIngredient} from "../../services/actions/current-ingredient";
 import {getBurgerIngredients} from "../../services/actions/burger-ingredients";
+import {useAppDispatch} from "../../hooks/hooks";
 
+
+interface ILocationState {
+    background?: Location|undefined
+}
 function App(){
     const history = useHistory();
-    const location = useLocation();
-    const dispatch = useDispatch();
+    const location = useLocation<ILocationState>();
+    const dispatch = useAppDispatch();
     const background = location.state && location.state.background;
 
     useEffect(()=>{
         dispatch(getBurgerIngredients());
     },[])
 
-    const onClose = e => {
-        e.stopPropagation();
+    const onClose = () => {
+
         dispatch(clearIngredient());
         history.goBack();
     };

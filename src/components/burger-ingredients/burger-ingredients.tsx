@@ -1,9 +1,9 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {updateActiveTab} from "../../services/actions/burger-ingredients";
 import {useAppSelector} from "../../hooks/hooks";
 import {IIngredient} from "../../services/interfaces/interfaces";

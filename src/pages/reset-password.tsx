@@ -5,21 +5,22 @@ import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {resetPassword} from "../services/actions/user";
 import {getCookie} from "../services/utils";
+import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 
 export function ResetPasswordPage() {
 
     const [form, setValue] = useState({ password: '', token: '' });
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent & { target: HTMLInputElement }) => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
-    const dispatch = useDispatch();
-    const {user, resetPasswordFailed, resetPasswordSuccess} = useSelector(state => state.user);
-    const { state } = useLocation();
+    const dispatch = useAppDispatch();
+    const {user, resetPasswordFailed, resetPasswordSuccess} = useAppSelector(state => state.user);
+    const { state }: {state:null|{from: string}} = useLocation();
 
     let resetPasswordClick = useCallback(
-        e => {
+        (e:React.SyntheticEvent) => {
             e.preventDefault();
             dispatch(resetPassword(form));
             setValue({password: '', token: ''});
@@ -71,10 +72,11 @@ export function ResetPasswordPage() {
                 </div>
                 {resetPasswordFailed && (
                     <p className={`text mb-6 text_type_main-default `}>ОЙ, Возникла ошибка!</p>
-                )}
+                )}{(
+                    //@ts-ignore
                 <Button onClick={resetPasswordClick} type="primary" size="large">
                     Сохранить
-                </Button>
+                </Button>)}
 
                 <p className={`text mt-20 text_type_main-default text_color_inactive`}>Вспомнили пароль?  <Link to={{ pathname: `/login`, state: history.location.state }} className={`text_color_accent`}>Войти</Link></p>
             </div>

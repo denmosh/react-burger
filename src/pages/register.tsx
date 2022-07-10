@@ -1,24 +1,24 @@
 import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {register} from "../services/actions/user";
 import {getCookie} from "../services/utils";
+import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 
 
 export function RegisterPage() {
 
     const [form, setValue] = useState({ name: '', email: '', password: '' });
-    const dispatch = useDispatch();
-    const {user, registerFailed} = useSelector(state => state.user);
+    const dispatch = useAppDispatch();
+    const {user, registerFailed} = useAppSelector(state => state.user);
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent & { target: HTMLInputElement }) => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
     let registerClick = useCallback(
-        e => {
+        (e:React.SyntheticEvent) => {
             e.preventDefault();
             dispatch(register(form));
             setValue({name: '', email: '', password: ''});
@@ -70,10 +70,11 @@ export function RegisterPage() {
                 </div>
                 {registerFailed && (
                     <p className={`text mb-6 text_type_main-default `}>При регистрации возникла ошибка!</p>
-                )}
+                )}{
+                //@ts-ignore
                 <Button onClick={registerClick} type="primary" size="large">
                     Зарегистрироваться
-                </Button>
+                </Button>}
                 <p className={`text mt-20 text_type_main-default text_color_inactive`}>Уже зарегистрировались?  <Link to={{ pathname: `/login`, state: history.location.state }} className={`text_color_accent`}>Войти</Link></p>
             </div>
         </div>

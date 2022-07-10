@@ -1,17 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from './profile.module.css'
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, NavLink, useHistory} from "react-router-dom";
-import {getUser, login, logout, updateUser} from "../services/actions/user";
-import {useDispatch, useSelector} from "react-redux";
+import {NavLink, useHistory} from "react-router-dom";
+import {getUser, logout, updateUser} from "../services/actions/user";
 import {getCookie} from "../services/utils";
+import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 
 export function ProfilePage() {
     const [form, setValue] = useState({ name: '', email: '', password: '' });
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {user, updateUserFailed, logoutFailed} = useSelector(state => state.user);
+    const {user, updateUserFailed, logoutFailed} = useAppSelector(state => state.user);
 
     useEffect(()=> {
         if(user.email === ''){
@@ -23,12 +23,12 @@ export function ProfilePage() {
         setValue({...form, ...user})
     }, [user])
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent & { target: HTMLInputElement }) => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
     const onClickCancel = useCallback(
-        e => {
+        (e:React.SyntheticEvent) => {
             e.preventDefault();
             setValue({ ...user, password: '' });
         },
@@ -36,7 +36,7 @@ export function ProfilePage() {
     );
 
     const onClickSave = useCallback(
-        e => {
+        (e:React.SyntheticEvent) => {
             e.preventDefault();
             dispatch(updateUser(form));
         },
@@ -44,7 +44,7 @@ export function ProfilePage() {
     );
 
     const onClickLogout = useCallback(
-        e => {
+        (e: React.SyntheticEvent) => {
             e.preventDefault();
             dispatch(logout({token: getCookie('refreshToken')}));
         },
@@ -52,6 +52,19 @@ export function ProfilePage() {
     );
 
     const history = useHistory();
+
+    const buttonCancel = (
+        // @ts-ignore
+        <Button onClick={onClickCancel} type="secondary" size="large">
+            Отмена
+        </Button>
+    );
+    const buttonSave = (
+        // @ts-ignore
+    <Button onClick={onClickSave} type="primary" size="large">
+        Сохранить
+    </Button>
+    );
     return (
         <div className={`${styles.wrapper} pt-30 mt-15`}>
             <div className={`${styles.container}`}>
@@ -113,15 +126,10 @@ export function ProfilePage() {
                     {updateUserFailed && (
                         <p className={`text mb-6 text_type_main-default `}>Ой, возникла ошибка!</p>
                     )}
-                    <Button onClick={onClickCancel} type="secondary" size="large">
-                        Отмена
-                    </Button>
+                    {buttonCancel}
                     <span className={`m-4`}></span>
-                    <Button onClick={onClickSave} type="primary" size="large">
-                        Сохранить
-                    </Button>
+                    {buttonSave}
                 </section>
-
             </div>
         </div>
     );

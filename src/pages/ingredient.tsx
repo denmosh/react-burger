@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {getBurgerIngredients} from "../services/actions/burger-ingredients";
+import React, {useEffect} from 'react';
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {setIngredient} from "../services/actions/current-ingredient";
 import {useParams} from "react-router-dom";
 import  styles from './ingredient.module.css';
@@ -41,6 +40,9 @@ export function IngredientPage() {
                 <IngredientDetails/>
             </div>
         );
-    }
+    }else
+        return (
+            <></>
+        )
 
 }

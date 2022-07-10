@@ -20,7 +20,9 @@ export interface IUuid {
 }
 
 export interface IOrderResponse {
-
+    order:{
+        number: number,
+    }
 }
 export interface IError {
     message: string,
@@ -45,7 +47,7 @@ export interface IAuthorization{
     password: string,
 }
 export interface ILogout{
-    token:string,
+    token:string|undefined,
 }
 
 export interface IResetPassword{

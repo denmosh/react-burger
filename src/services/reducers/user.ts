@@ -16,8 +16,39 @@ import {
     updateUserFailed, updateUserRequest, updateUserSuccess, tokenRequest, tokenSuccess, tokenFailed
 
 } from "../actions/user";
+import {IUser} from "../interfaces/interfaces";
 
-const userInitialState = {
+interface IUserState {
+
+    getUserRequest: boolean,
+    getUserFailed: boolean,
+
+    updateUserRequest: boolean,
+    updateUserFailed: boolean,
+
+    registerRequest: boolean,
+    registerFailed: boolean,
+
+    loginRequest: boolean,
+    loginFailed: boolean,
+
+    tokenRequest: boolean,
+    tokenFailed: boolean,
+
+    resetPasswordRequest: boolean,
+    resetPasswordFailed: boolean,
+    resetPasswordSuccess: boolean,
+
+    forgotPasswordRequest: boolean,
+    forgotPasswordFailed: boolean,
+    forgotPasswordSuccess: boolean,
+
+    logoutRequest: boolean,
+    logoutFailed: boolean,
+
+    user:IUser
+}
+const userInitialState:IUserState = {
     
     getUserRequest: false,
     getUserFailed: false,

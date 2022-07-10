@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,7 +9,7 @@ const modalRoot = document.getElementById("modals") as HTMLElement;
 
 function Modal(props:{
     onClose: ()=>void,
-    children: React.ReactNode,
+    children: ReactNode,
     title?: string
 }) {
 

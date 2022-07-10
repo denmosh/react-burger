@@ -1,12 +1,12 @@
 import React from 'react';
 import DoneIcon from "../../images/done.png";
 import style from "./order-details.module.css"
-import {useSelector} from "react-redux";
+import {useAppSelector} from "../../hooks/hooks";
 
 
 function OrderDetails() {
 
-    const {order, orderRequest} = useSelector(store => store.orderDetails);
+    const {order, orderRequest} = useAppSelector(store => store.orderDetails);
 
     return (
         <>
