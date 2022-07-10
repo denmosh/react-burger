@@ -5,18 +5,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {setIngredient} from "../services/actions/current-ingredient";
 import {useParams} from "react-router-dom";
 import  styles from './ingredient.module.css';
-import {currentIngredient} from "../services/reducers/current-ingredient";
+
+import {useAppSelector} from "../hooks/hooks";
 
 export function IngredientPage() {
 
     const dispatch = useDispatch();
-    const { id } = useParams();
-    const {ingredients, ingredientsRequest, ingredientsFailed} = useSelector(store => store.burgerIngredients);
-    const {ingredient} = useSelector(store => store.currentIngredient);
+    const { id }:{ id: string} = useParams();
+    const {ingredients, ingredientsRequest, ingredientsFailed} = useAppSelector(store => store.burgerIngredients);
+    const {ingredient} = useAppSelector(store => store.currentIngredient);
 
     useEffect(()=>{
         if(ingredients.length !== 0){
-            dispatch(setIngredient(ingredients.find(x => x._id === id)));
+            let ing = ingredients.find(x => x._id === id);
+            if(ing !== undefined)
+                dispatch(setIngredient(ing));
         }
     }, [ingredients])
 
@@ -32,7 +35,7 @@ export function IngredientPage() {
         )
     }
 
-    if(Object.keys(ingredient).length !== 0){
+    if(ingredient !== null){
         return (
             <div className={styles.wrapper}>
                 <IngredientDetails/>

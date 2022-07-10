@@ -5,12 +5,16 @@ import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import PropTypes from 'prop-types';
 
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById("modals") as HTMLElement;
 
-function Modal(props) {
+function Modal(props:{
+    onClose: ()=>void,
+    children: React.ReactNode,
+    title?: string
+}) {
 
     useEffect(() => {
-        function onKeyup(e) {
+        function onKeyup(e: KeyboardEvent) {
             if (e.key === "Escape") props.onClose();
         }
         window.addEventListener("keyup", onKeyup);

@@ -1,13 +1,16 @@
 import React from 'react';
 import style from "./ingredient-details.module.css";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "../../hooks/hooks";
+
 
 function IngredientDetails() {
 
-    const {ingredient} = useSelector(store => store.currentIngredient);
+    const {ingredient} = useAppSelector(store => store.currentIngredient);
 
     return (
-        <>
+
+        <>{ingredient !==null  && (
+            <>
             <img className={style.image} src={ingredient.image_large} alt={ingredient.name}/>
             <h3 className={`${style.name} text_type_main-medium mt-4 mb-8`}>{ingredient.name}</h3>
             <div className={style.details}>
@@ -28,7 +31,10 @@ function IngredientDetails() {
                     <p className={"text_color_inactive text_type_digits-default"}>{ingredient.carbohydrates}</p>
                 </div>
             </div>
+                </>
+            )}
         </>
+
     );
 }
 
