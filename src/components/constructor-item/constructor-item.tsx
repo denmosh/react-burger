@@ -6,14 +6,15 @@ import {useDispatch} from "react-redux";
 import {moveIngredient} from "../../services/actions/burger-constructor";
 import PropTypes from "prop-types";
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
+import {IIngredientUniq} from "../../services/interfaces/interfaces";
 
 
-function ConstructorItem(props) {
+function ConstructorItem(props:{ingredient: IIngredientUniq, index: number, handleRemoveItem: any}) {
     const {ingredient, handleRemoveItem, index} = props;
 
     const dispatch = useDispatch();
 
-    const ref = useRef(null)
+    const ref = useRef<HTMLDivElement>(null);
 
     const [{ handlerId }, drop] = useDrop({
         accept: "constructor-item",
@@ -22,7 +23,7 @@ function ConstructorItem(props) {
                 handlerId: monitor.getHandlerId(),
             }
         },
-        hover(item, monitor) {
+        hover(item:any, monitor) {
             if (!ref.current) {
                 return
             }
@@ -35,7 +36,7 @@ function ConstructorItem(props) {
             const hoverMiddleY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const clientOffset = monitor.getClientOffset()
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top
+            const hoverClientY = clientOffset? clientOffset.y - hoverBoundingRect.top: 0;
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
             }
@@ -63,7 +64,7 @@ function ConstructorItem(props) {
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image_mobile}
-                handleClose={e => handleRemoveItem(ingredient.uuid)}
+                handleClose={() => handleRemoveItem(ingredient.uuid)}
             />
         </div>
     );

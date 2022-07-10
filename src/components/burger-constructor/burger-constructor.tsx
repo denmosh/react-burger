@@ -5,7 +5,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorItem from "../constructor-item/constructor-item";
 
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {countOrderTotal, createOrder, closeOderModal} from "../../services/actions/order-details";
 import { useHistory } from "react-router-dom";
 import {useDrop} from "react-dnd";
@@ -17,7 +17,7 @@ import {
 } from "../../services/actions/burger-constructor";
 import {getCookie} from "../../services/utils";
 import {useAppDispatch} from "../../hooks/hooks";
-import {IIngredient, IIngredientUniq} from "../../services/interfaces/interfaces";
+import {IIngredientUniq} from "../../services/interfaces/interfaces";
 
 function BurgerConstructor() {
 
@@ -79,8 +79,10 @@ function BurgerConstructor() {
                 Не забудьте добавить булку.</p>
         </div>
     ) : ''
-
-
+    const button = (
+        // @ts-ignore
+        <Button onClick={handleClickOrder} size={"large"} disabled={bun === undefined} type={"primary"}>Оформить заказ</Button>
+    );
     return (
         <div ref={drop} className={`mt-25 pl-4`}>
             <div className={`${style.constructor}`}>
@@ -123,8 +125,7 @@ function BurgerConstructor() {
                     <span className="text_type_digits-medium mr-2">{total}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button onClick={handleClickOrder} size={"large"} disabled={bun === undefined} name={"Оформить заказ"} type={"primary"}></Button>
-
+                {button}
             </div>
             {orderModal && modal}
         </div>

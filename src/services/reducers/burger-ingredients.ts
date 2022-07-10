@@ -1,16 +1,26 @@
 import { createReducer } from '@reduxjs/toolkit'
 import {getIngredientsFailed, getIngredients, getIngredientsSuccess, updateActiveTab} from "../actions/burger-ingredients";
+import {IIngredient} from "../interfaces/interfaces";
 
+interface IBurgerIngredients {
+    ingredients: Array<IIngredient>,
+    ingredientsRequest: boolean,
+    ingredientsFailed: boolean,
+    activeTab: string,
+    categories: {
+        [name:string]: string,
+    }
+}
 
-const burgerIngredientsInitialState = {
+const burgerIngredientsInitialState: IBurgerIngredients = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsFailed: false,
     activeTab: "bun",
     categories: {
-        bun: "Булки",
-        sauce: "Начинки",
-        main: "Соусы",
+        "bun": "Булки",
+        "sauce": "Начинки",
+        "main": "Соусы",
     }
 }
 
