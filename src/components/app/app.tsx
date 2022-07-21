@@ -11,7 +11,7 @@ import {
     ForgotPasswordPage,
     ResetPasswordPage,
     ProfilePage,
-    IngredientPage
+    IngredientPage, OrdersPage, OrderPage, FeedPage, FeedItemPage
 } from "../../pages";
 import {ProtectedRoute} from "../protected-route/protected-route";
 import {clearIngredient} from "../../services/actions/current-ingredient";
@@ -60,10 +60,19 @@ function App(){
                         <ProfilePage/>
                     </ProtectedRoute>
                     <ProtectedRoute path="/profile/orders" exact={true}>
-                        <ProfilePage/>
+                        <OrdersPage/>
                     </ProtectedRoute>
+                    <Route path="/profile/orders/:id" exact={true}>
+                        <OrderPage/>
+                    </Route>
                     <Route path="/ingredients/:id" exact={true}>
                         <IngredientPage/>
+                    </Route>
+                    <Route path="/feed" exact={true}>
+                        <FeedPage/>
+                    </Route>
+                    <Route path="/feed/:id" exact={true}>
+                        <FeedItemPage/>
                     </Route>
                     <Route>
                         <NotFound404 />
