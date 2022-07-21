@@ -62,9 +62,9 @@ function App(){
                     <ProtectedRoute path="/profile/orders" exact={true}>
                         <OrdersPage/>
                     </ProtectedRoute>
-                    <Route path="/profile/orders/:id" exact={true}>
+                    <ProtectedRoute path="/profile/orders/:id" exact={true}>
                         <OrderPage/>
-                    </Route>
+                    </ProtectedRoute>
                     <Route path="/ingredients/:id" exact={true}>
                         <IngredientPage/>
                     </Route>

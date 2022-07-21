@@ -24,8 +24,12 @@ function AppHeader() {
                         <li>
                             <div className={appHeaderStyles.menuItem}>
                                 <ListIcon type={"secondary"}/>
-                                <span
-                                    className={`${appHeaderStyles.menuItemText} text_color_inactive`}>Лента заказов</span>
+                                <NavLink
+                                    exact
+                                    to={{pathname: '/feed'}}
+                                    className={`${appHeaderStyles.menuItemText} text_color_inactive`}
+                                    activeClassName={appHeaderStyles.activeLink}
+                                >Лента заказов</NavLink>
                             </div>
                         </li>
                     </ul>
