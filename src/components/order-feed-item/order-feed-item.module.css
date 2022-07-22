@@ -1,0 +1,43 @@
+.container{
+    width: 100%;
+    background: var(--background);
+    border-radius: 40px;
+}
+.topContainer{
+    display: flex;
+    align-items: center;
+}
+.date{
+    text-align: right;
+    flex-grow: 1;
+}
+
+.bottomContainer{
+    display: flex;
+    align-items: center;
+}
+.icons{
+    display: flex;
+    height: 64px;
+    flex-grow: 1;
+}
+.icon{
+    border: 2px solid;
+
+    border-image-source: linear-gradient(63.18deg, #801AB2
+    100%,
+    #4C4CFF
+    100%);
+
+
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-position: center center;
+    background: #131316;
+    box-sizing: border-box;
+}
+.price{
+    display: flex;
+    align-items: center;
+}
