@@ -12,8 +12,19 @@ function OrderFeedItem() {
             <h3 className={`text_type_main-medium mb-6`}>Death Star Starship Main бургер</h3>
             <div className={`${styles.bottomContainer}`}>
                 <div className={`${styles.icons}`}>
-                    <div style={{backgroundImage: "https://code.s3.yandex.net/react/code/bun-02-mobile.png"}} className={styles.icon}></div>
+
+                    <div className={styles.iconWrapper} style={{backgroundImage: `url("https://code.s3.yandex.net/react/code/bun-02-mobile.png")`, zIndex: -0, left: `0px`}} >
+                        <div className={styles.icon}></div>
+                    </div>
+                    <div className={styles.iconWrapper} style={{backgroundImage: `url("https://code.s3.yandex.net/react/code/bun-02-mobile.png")`, zIndex: -1, left: `-15px`}} >
+                        <div className={styles.icon}></div>
+                    </div>
+                    <div className={styles.iconWrapper} style={{backgroundImage: `url("https://code.s3.yandex.net/react/code/bun-02-mobile.png")`, zIndex: -2, left: `-30px`}} >
+                        <div className={styles.icon}></div>
+                        <div className={`text_type_main-default ${styles.iconNumbers}`}>+56</div>
+                    </div>
                 </div>
+
                 <div className={`ml-6 ${styles.price}`}>
                     <span className="text_type_digits-default mr-2">408</span>
                     <CurrencyIcon type={"primary"}/>
