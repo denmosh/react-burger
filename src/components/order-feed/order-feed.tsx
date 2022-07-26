@@ -1,11 +1,11 @@
 import React from 'react';
-import OrderFeedItem from "../order-feed-item/order-feed-item";
+import OrderItem from "../order-item/order-item";
 import styles from './order-feed.module.css';
 
 function OrderFeed() {
     return (
         <div className={styles.container}>
-            <OrderFeedItem/>
+            <OrderItem/>
         </div>
     );
 }

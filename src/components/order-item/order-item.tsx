@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './order-feed-item.module.css';
+import styles from './order-item.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-function OrderFeedItem() {
+function OrderItem() {
     return (
         <div className={`${styles.container} p-6`}>
             <div className={`${styles.topContainer} mb-6`}>
@@ -35,4 +35,4 @@ function OrderFeedItem() {
     );
 }
 
-export default OrderFeedItem;
+export default OrderItem;

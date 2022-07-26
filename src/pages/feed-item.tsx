@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
+import OrderItemDetails from "../components/order-item-details/order-item.details";
 
 class FeedItemPage extends Component {
     render() {
         return (
-            <div>
-                feed item
-            </div>
+            <OrderItemDetails/>
         );
     }
 }
