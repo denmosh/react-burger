@@ -1,10 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer} from "./reducers";
 import thunk from "redux-thunk";
+import {socketMiddleware} from "./middleware/socket-middleware";
+const wsActions = {
+    wsInit: "WS_INIT",
+    wsSendMessage: "WS_SEND_MESSAGE",
+    onOpen: "WS_CONNECTION_SUCCESS",
+    onClose: "WS_CONNECTION_CLOSED",
+    onError: "WS_CONNECTION_ERROR",
+    onMessage: "WS_GET_MESSAGE"
+};
 
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk).concat(socketMiddleware("wss://norma.nomoreparties.space/orders/all", wsActions)),
     devTools: true,
     enhancers: [],
 })

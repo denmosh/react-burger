@@ -16,16 +16,16 @@ import {
     replaceIngredientBun
 } from "../../services/actions/burger-constructor";
 import {getCookie} from "../../services/utils";
-import {useAppDispatch} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {IIngredientUniq} from "../../services/interfaces/interfaces";
 
 function BurgerConstructor() {
 
     const dispatch = useAppDispatch()
 
-    const {ingredients} = useSelector((store:any) => store.burgerConstructor);
+    const {ingredients} = useAppSelector((store) => store.burgerConstructor);
     const {total, orderRequest, orderModal} = useSelector((store:any) => store.orderDetails);
-    const {user} = useSelector((store:any) => store.user);
+    const {user} = useAppSelector(store => store.user);
 
     const bun = ingredients.filter(({type}:{type:string}) => type === "bun")[0];
     const history = useHistory();

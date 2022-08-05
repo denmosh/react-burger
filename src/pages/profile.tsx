@@ -14,6 +14,7 @@ export function ProfilePage() {
     const {user, updateUserFailed, logoutFailed} = useAppSelector(state => state.user);
 
     useEffect(()=> {
+        dispatch({type: "WS_INIT"});
         if(user.email === ''){
             dispatch(getUser());
         }

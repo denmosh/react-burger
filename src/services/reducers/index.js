@@ -6,11 +6,13 @@ import {burgerConstructor} from "./burger-constructor";
 import {burgerIngredients} from "./burger-ingredients";
 import {currentIngredient} from "./current-ingredient";
 import {user} from "./user";
+import {wsReducer} from "./ws-reducer";
 
 export const rootReducer = combineReducers({
     orderDetails,
     burgerIngredients,
     burgerConstructor,
     currentIngredient,
-    user
+    user,
+    wsReducer
 })
