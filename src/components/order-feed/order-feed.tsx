@@ -1,11 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import OrderItem from "../order-item/order-item";
 import styles from './order-feed.module.css';
+import {getUser} from "../../services/actions/user";
+import {wsInit} from "../../services/actions/ws-actions";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 function OrderFeed() {
+    const dispatch = useAppDispatch();
+    const {orders} = useAppSelector(store => store.wsReducer)
+
+    useEffect(()=> {
+        dispatch(wsInit())
+    }, [])
     return (
         <div className={styles.container}>
-            <OrderItem/>
+            {orders.map((order) => {
+                return(
+                    <OrderItem key={order.number} order={order}/>
+                    )
+                }
+            )}
+
         </div>
     );
 }

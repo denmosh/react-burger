@@ -17,7 +17,7 @@ export const socketMiddleware = (wsUrl:string, wsActions:IWsActions) => {
             const { type, payload } = action;
             const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
             const { user } = getState().user;
-            if (type === wsInit && user.email) {
+            if (type === wsInit) {
                 socket = new WebSocket(`${wsUrl}`);
             }
             if (socket) {

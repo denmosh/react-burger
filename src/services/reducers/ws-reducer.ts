@@ -6,14 +6,16 @@ import {
     wsGetMessage,
     wsSendMessage
 } from "../actions/ws-actions";
+import {IOrderItem, IWsMessage} from '../interfaces/interfaces';
 
-interface IInitialState {
-    wsConnected: boolean,
-    messages: Array<Object>
+interface IInitialState extends IWsMessage{
+    wsConnected: boolean
 }
 const initialState:IInitialState = {
     wsConnected: false,
-    messages: []
+    orders: [],
+    total: -1,
+    totalToday: -1
 };
 
 
@@ -40,9 +42,10 @@ export const wsReducer = createReducer(initialState, (builder) => {
         .addCase(wsGetMessage, (state, action) => {
             return {
                 ...state,
-                messages: state.messages.length
-                    ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
-                    : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
+                ...action.payload
+                // messages: state.messages.length
+                //     ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
+                //     : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
             };
         })
 
