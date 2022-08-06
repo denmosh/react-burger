@@ -1,3 +1,6 @@
 .container{
     width: 584px;
+    max-height: 660px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }

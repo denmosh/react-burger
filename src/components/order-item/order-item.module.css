@@ -2,6 +2,7 @@
     width: 100%;
     background: var(--background);
     border-radius: 40px;
+    box-sizing: border-box;
 }
 .topContainer{
     display: flex;
