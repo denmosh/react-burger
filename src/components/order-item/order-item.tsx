@@ -7,12 +7,14 @@ import Moment from 'moment';
 import 'moment/locale/ru'
 import {useHistory, useLocation} from "react-router-dom";
 import {setOrder} from "../../services/actions/current-order";
+import {ORDER_STATUSES} from "../../constants/constants";
 
 type Porps = {
     order: IOrderItem;
+    displayStatus?: boolean
 }
 
-function OrderItem({order}:Porps) {
+function OrderItem({order, displayStatus}:Porps) {
     const {ingredients, name, createdAt, status, number} = order
     const ingredientsDetailed = useAppSelector(state => state.burgerIngredients.ingredients);
     const ingredientsRender = []
@@ -24,11 +26,10 @@ function OrderItem({order}:Porps) {
     const handleOpenModal = () => {
         dispatch(setOrder(order));
         history.push({
-            pathname: `/feed/${ order.number }`,
+            pathname: `${location.pathname}/${ order.number }`,
             state: { background: location }
         })
     }
-
 
     for(let i = 0; i < ingredients.length && i!==6; i++){
         let ingredient = ingredientsDetailed.find(x => x._id === ingredients[i])
@@ -55,15 +56,18 @@ function OrderItem({order}:Porps) {
     const sum = useMemo(()=>
             countPrice(ingredients, ingredientsDetailed),
         [ingredients, ingredientsDetailed]);
-
+    const date = `${Moment(createdAt).calendar(null, {sameElse: 'DD.MM.YYYY, HH:MM'})} i-GMT+3`
     return (
         <div onClick={handleOpenModal} className={`${styles.container} p-6 mb-6`}>
             <div className={`${styles.topContainer} mb-6`}>
                 <span className={`text_type_digits-default `}>#{number}</span>
-                <span className={`text_type_main-default text_color_inactive ${styles.date}`}>{Moment(createdAt).calendar()} i-GMT+3</span>
+                <span className={`text_type_main-default text_color_inactive ${styles.date}`}>{date}</span>
             </div>
-            <h3 className={`text_type_main-medium mb-6`}>{name}</h3>
-            <div className={`${styles.bottomContainer}`}>
+            <h3 className={`text_type_main-medium mb-2`}>{name}</h3>
+            {displayStatus && (
+                <p className={`text_type_main-default ${order.status === 'done'? "text_color_success": ""} mb-2`}>{ORDER_STATUSES[order.status]}</p>
+            )}
+            <div className={`mt-4 ${styles.bottomContainer}`}>
                 <div className={`${styles.icons}`}>
                     {ingredientsRender}
                 </div>

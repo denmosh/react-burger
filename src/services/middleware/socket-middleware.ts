@@ -1,4 +1,5 @@
 import {RootState} from "../store";
+import {getCookie} from "../utils";
 
 interface IWsActions {
     wsInit: string,
@@ -18,8 +19,7 @@ export const socketMiddleware = (wsUrl:string, wsActions:IWsActions) => {
             const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
             const { user } = getState().user;
             if (type === wsInit) {
-                console.log("ws init " + payload);
-                socket = new WebSocket(`${wsUrl}${payload.path}`);
+                socket = new WebSocket(`${wsUrl}${payload.path}?token=${getCookie('token')}`);
             }
             if (socket) {
                 socket.onopen = (event:any) => {

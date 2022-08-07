@@ -15,7 +15,7 @@ export interface IIngredient {
 export interface IOrderItem{
     _id: string,
     ingredients: Array<string>
-    status: string
+    status: 'created' | 'pending' | 'done'
     name: string
     createdAt: string
     updatedAt: string

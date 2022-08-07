@@ -77,7 +77,6 @@ function App(){
                         <NotFound404 />
                     </Route>
                 </Switch>
-
                 {background && (
                     <Route path="/ingredients/:id" exact={true}>
                         <Modal onClose={onClose} title={"Детали ингредиента"}>
@@ -87,6 +86,13 @@ function App(){
                 )}
                 {background && (
                     <Route path="/feed/:id" exact={true}>
+                        <Modal onClose={onClose} >
+                            <FeedItemPage/>
+                        </Modal>
+                    </Route>
+                )}
+                {background && (
+                    <Route path="/profile/orders/:id" exact={true}>
                         <Modal onClose={onClose} >
                             <FeedItemPage/>
                         </Modal>
