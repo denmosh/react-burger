@@ -3,6 +3,7 @@
     background: var(--background);
     border-radius: 40px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 .topContainer{
     display: flex;

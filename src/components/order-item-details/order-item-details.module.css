@@ -1,10 +1,12 @@
 .wrapper{
-    width: 640px;
+    max-width: 640px;
     margin: 0 auto;
 
 }
 .ingredients{
-    max-height: 312px;
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .ingredient{
     display: flex;
@@ -55,4 +57,7 @@
 .price{
     display: flex;
     align-items: center;
+}
+.priceText{
+    white-space: nowrap;
 }

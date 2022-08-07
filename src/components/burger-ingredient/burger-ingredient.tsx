@@ -33,7 +33,6 @@ function BurgerIngredient(props:{ingredient:IIngredient}) {
 
 
     const handleOpenModal = () => {
-
         history.push({
             pathname: `/ingredients/${ props.ingredient._id }`,
             state: { background: location }

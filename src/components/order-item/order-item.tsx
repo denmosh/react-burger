@@ -2,19 +2,32 @@ import React, {ReactNode, useCallback, useMemo, useState} from 'react';
 import styles from './order-item.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IIngredient, IOrderItem} from "../../services/interfaces/interfaces";
-import {useAppSelector} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import Moment from 'moment';
 import 'moment/locale/ru'
+import {useHistory, useLocation} from "react-router-dom";
+import {setOrder} from "../../services/actions/current-order";
 
 type Porps = {
-    order:IOrderItem;
+    order: IOrderItem;
 }
 
 function OrderItem({order}:Porps) {
     const {ingredients, name, createdAt, status, number} = order
     const ingredientsDetailed = useAppSelector(state => state.burgerIngredients.ingredients);
     const ingredientsRender = []
+    const history = useHistory();
+    const location = useLocation();
+    const dispatch = useAppDispatch();
     Moment.locale('ru');
+
+    const handleOpenModal = () => {
+        history.push({
+            pathname: `/feed/${ order._id }`,
+            state: { background: location }
+        })
+        dispatch(setOrder(order));
+    }
 
 
     for(let i = 0; i < ingredients.length && i!==6; i++){
@@ -44,7 +57,7 @@ function OrderItem({order}:Porps) {
         [ingredients, ingredientsDetailed]);
 
     return (
-        <div className={`${styles.container} p-6 mb-6`}>
+        <div onClick={handleOpenModal} className={`${styles.container} p-6 mb-6`}>
             <div className={`${styles.topContainer} mb-6`}>
                 <span className={`text_type_digits-default `}>#{number}</span>
                 <span className={`text_type_main-default text_color_inactive ${styles.date}`}>{Moment(createdAt).calendar()} i-GMT+3</span>

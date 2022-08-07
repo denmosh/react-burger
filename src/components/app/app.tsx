@@ -33,7 +33,6 @@ function App(){
     },[])
 
     const onClose = () => {
-
         dispatch(clearIngredient());
         history.goBack();
     };
@@ -83,6 +82,13 @@ function App(){
                     <Route path="/ingredients/:id" exact={true}>
                         <Modal onClose={onClose} title={"Детали ингредиента"}>
                             <IngredientPage/>
+                        </Modal>
+                    </Route>
+                )}
+                {background && (
+                    <Route path="/feed/:id" exact={true}>
+                        <Modal onClose={onClose} >
+                            <FeedItemPage/>
                         </Modal>
                     </Route>
                 )}

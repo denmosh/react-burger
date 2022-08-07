@@ -7,26 +7,36 @@ function OrderDashboard() {
     const done = orders.filter((order)=>{
         return order.status === 'done';
     })
-    const prepared = orders.filter((order)=>{
-        return order.status === 'prepared';
+    const pending = orders.filter((order)=>{
+        return order.status === 'pending';
     })
     return (
         <div className={`mr-15`}>
             <div className={`${styles.numberContainer} mb-15`}>
                 <div className={`${styles.numberCol}`}>
                     <h3 className={`text_type_main-medium mb-6`}>Готовы:</h3>
-                    <ul>
-                        {done.slice(0, 6).map((order)=>{
-                            return(
-                                <li className={`text_color_success text_type_digits-default mb-2`}>{order.number}</li>
-                            )
-                        })}
-                    </ul>
+                    <section className={styles.row}>
+                        <ul>
+                            {done.slice(0, 6).map((order)=>{
+                                return(
+                                    <li className={`text_color_success text_type_digits-default mb-2`}>{order.number}</li>
+                                )
+                            })}
+                        </ul>
+                        <ul>
+                            {done.slice(0, 6).map((order)=>{
+                                return(
+                                    <li className={`text_color_success text_type_digits-default mb-2`}>{order.number}</li>
+                                )
+                            })}
+                        </ul>
+                    </section>
+
                 </div>
                 <div className={`${styles.numberCol}`}>
                     <h3 className={`text_type_main-medium mb-6`}>В работе:</h3>
                     <ul>
-                        {prepared.slice(0, 6).map((order)=>{
+                        {pending.slice(0, 6).map((order)=>{
                             return(
                                 <li className={`text_color_primary text_type_digits-default mb-2`}>{order.number}</li>
                             )

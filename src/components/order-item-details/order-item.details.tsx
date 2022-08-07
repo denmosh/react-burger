@@ -1,35 +1,58 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import styles from './order-item-details.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-
+import {useAppSelector} from "../../hooks/hooks";
+import Moment from "moment";
+import 'moment/locale/ru'
+import {countPrice} from "../../services/utils";
 function OrderItemDetails() {
+    const order = useAppSelector(store => store.currentOrder.order);
+    const ingredients = useAppSelector(store => store.burgerIngredients.ingredients);
+    Moment.locale('ru');
+    const mapping = order?.ingredients.reduce((acc:{[key: string]: number}, ingredientId) => {
+        acc[ingredientId] = (acc[ingredientId] || 0) + 1;
+        return acc;
+    }, {}) || {};
+    const sum = useMemo(()=>
+            countPrice(order?.ingredients || [], ingredients),
+        [order?.ingredients, ingredients]);
+    if(!order){
+        return <>
+            Загрузка заказа...
+        </>
+    }
+
     return (
-        <div className={`pt-10 ${styles.wrapper}`}>
-            <p className={`text_type_digits-default ${styles.textCenter}`}>#034533</p>
-            <h3 className={`mt-10 text_type_main-medium`}>Black Hole Singularity острый бургер</h3>
-            <p className={`mt-3 text_type_main-default text_color_success`}></p>
-            <p className={`mt-15 mb-6 text_type_main-medium`}>Состав:</p>
-            <div className={styles.ingredients}>
-                <div className={`mb-4 ${styles.ingredient}`}>
-                    <div className={styles.iconWrapper} style={{backgroundImage: `url("https://code.s3.yandex.net/react/code/bun-02-mobile.png")`}} >
-                        <div className={styles.icon}></div>
-                    </div>
-                    <p className={`ml-4 text_type_main-medium ${styles.name}`}>Флюоресцентная булка R2-D3</p>
-                    <div className={`ml-4 ${styles.price}`}>
-                        <span className="text_type_digits-default mr-2">2 x 20</span>
-                        <CurrencyIcon type={"primary"}/>
-                    </div>
+            <div className={`${styles.wrapper}`}>
+                <p className={`text_type_digits-default ${styles.textCenter}`}>#{order.number}</p>
+                <h3 className={`mt-10 text_type_main-medium`}>{order.name}</h3>
+                <p className={`mt-3 text_type_main-default text_color_success`}></p>
+                <p className={`mt-15 mb-6 text_type_main-medium`}>Состав:</p>
+                <div className={styles.ingredients}>
+                    {Object.keys(mapping).map((ingredientId)=> {
+                        let ingredient = ingredients.find(x => x._id === ingredientId)
+                        return(
+                            <div className={`mb-4 ${styles.ingredient}`}>
+                                <div className={styles.iconWrapper} style={{backgroundImage: `url("${ingredient?.image_mobile}")`}} >
+                                    <div className={styles.icon}></div>
+                                </div>
+                                <p className={`ml-4 text_type_main-default ${styles.name}`}>{ingredient?.name}</p>
+                                <div className={`ml-4 ${styles.price}`}>
+                                    <span className={`${styles.priceText} text_type_digits-default mr-2`}>{mapping[ingredientId]} x {ingredient?.price}</span>
+                                    <CurrencyIcon type={"primary"}/>
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
                 <div className={`${styles.bottomWrapper} mt-10`}>
-                    <p className={`text_type_main-default text_color_inactive ${styles.date} ${styles.textLeft}`}>Сегодня, 16:20 i-GMT+3</p>
+                    <p className={`text_type_main-default text_color_inactive ${styles.date} ${styles.textLeft}`}>{Moment(order.createdAt).calendar()} i-GMT+3</p>
                     <div className={`ml-6 ${styles.price}`}>
-                        <span className="text_type_digits-default mr-2">408</span>
+                        <span className="text_type_digits-default mr-2">{sum}</span>
                         <CurrencyIcon type={"primary"}/>
                     </div>
                 </div>
             </div>
-
-        </div>
     );
 }
 
