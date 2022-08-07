@@ -1,4 +1,4 @@
-import React, {ReactNode, useCallback, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import styles from './order-item.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IIngredient, IOrderItem} from "../../services/interfaces/interfaces";
@@ -65,7 +65,7 @@ function OrderItem({order, displayStatus}:Porps) {
             </div>
             <h3 className={`text_type_main-medium mb-2`}>{name}</h3>
             {displayStatus && (
-                <p className={`text_type_main-default ${order.status === 'done'? "text_color_success": ""} mb-2`}>{ORDER_STATUSES[order.status]}</p>
+                <p className={`text_type_main-default ${status === 'done'? "text_color_success": ""} mb-2`}>{ORDER_STATUSES[status]}</p>
             )}
             <div className={`mt-4 ${styles.bottomContainer}`}>
                 <div className={`${styles.icons}`}>

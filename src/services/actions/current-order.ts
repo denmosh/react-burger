@@ -22,7 +22,7 @@ export function getOrder(number: string) {
                 if(res && res.orders && res.orders[0]){
                     dispatch(getOrderSuccess(res.orders[0]));
                 }else{
-                   throw "Unable to parse response.";
+                    throw new Error("Unable to parse response.")
                 }
 
             }).catch((error) => {

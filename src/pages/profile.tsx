@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from './profile.module.css'
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useHistory} from "react-router-dom";
 import {getUser, updateUser} from "../services/actions/user";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import ProfileMenu from "../components/profile-menu/profile-menu";
@@ -11,7 +10,7 @@ export function ProfilePage() {
 
     const dispatch = useAppDispatch();
 
-    const {user, updateUserFailed, logoutFailed} = useAppSelector(state => state.user);
+    const {user, updateUserFailed} = useAppSelector(state => state.user);
 
     useEffect(()=> {
         if(user.email === ''){
