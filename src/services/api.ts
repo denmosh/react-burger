@@ -79,6 +79,6 @@ export const createOrderReq = async (form:object) => {
         },
     }));
 };
-export const getOrderReq = async (id:string) => {
-    return await fetch(API_URL + order+`/${id}`);
+export const getOrderReq = async (number: string) => {
+    return await fetch(API_URL + order+`/${number}`);
 };

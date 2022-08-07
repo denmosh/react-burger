@@ -6,7 +6,7 @@ import {
     wsGetMessage,
     wsSendMessage
 } from "../actions/ws-actions";
-import {IOrderItem, IWsMessage} from '../interfaces/interfaces';
+import {IWsMessage} from '../interfaces/interfaces';
 
 interface IInitialState extends IWsMessage{
     wsConnected: boolean
@@ -14,8 +14,8 @@ interface IInitialState extends IWsMessage{
 const initialState:IInitialState = {
     wsConnected: false,
     orders: [],
-    total: -1,
-    totalToday: -1
+    total:0,
+    totalToday: 0
 };
 
 

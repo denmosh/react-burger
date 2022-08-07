@@ -1,13 +1,17 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import styles from './order-item-details.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useAppSelector} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import Moment from "moment";
 import 'moment/locale/ru'
 import {countPrice} from "../../services/utils";
+import {getOrder} from "../../services/actions/current-order";
+import {useParams} from "react-router-dom";
 function OrderItemDetails() {
-    const order = useAppSelector(store => store.currentOrder.order);
+    const {order, orderFailed, orderRequest} = useAppSelector(store => store.currentOrder);
     const ingredients = useAppSelector(store => store.burgerIngredients.ingredients);
+    const dispatch = useAppDispatch();
+    const { id }:{ id: string} = useParams();
     Moment.locale('ru');
     const mapping = order?.ingredients.reduce((acc:{[key: string]: number}, ingredientId) => {
         acc[ingredientId] = (acc[ingredientId] || 0) + 1;
@@ -16,10 +20,21 @@ function OrderItemDetails() {
     const sum = useMemo(()=>
             countPrice(order?.ingredients || [], ingredients),
         [order?.ingredients, ingredients]);
+    useEffect(()=>{
+        if(!order){
+            dispatch(getOrder(id));
+        }
+    },[])
+
+    if(orderFailed) {
+        return <>При загрузке возникла ошибка...</>
+    }
+    if(orderRequest) {
+        return <>Загрузка заказа...</>
+    }
+
     if(!order){
-        return <>
-            Загрузка заказа...
-        </>
+        return <>Загрузка заказа...</>
     }
 
     return (
@@ -32,7 +47,7 @@ function OrderItemDetails() {
                     {Object.keys(mapping).map((ingredientId)=> {
                         let ingredient = ingredients.find(x => x._id === ingredientId)
                         return(
-                            <div className={`mb-4 ${styles.ingredient}`}>
+                            <div key={ingredientId} className={`mb-4 ${styles.ingredient}`}>
                                 <div className={styles.iconWrapper} style={{backgroundImage: `url("${ingredient?.image_mobile}")`}} >
                                     <div className={styles.icon}></div>
                                 </div>

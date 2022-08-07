@@ -1,7 +1,7 @@
 import {createAction} from "@reduxjs/toolkit";
-import {IWsMessage} from "../interfaces/interfaces";
+import {IWsInit, IWsMessage} from "../interfaces/interfaces";
 
-export const wsInit = createAction('WS_INIT');
+export const wsInit = createAction<IWsInit>('WS_INIT');
 export const wsConnectionSuccess = createAction('WS_CONNECTION_SUCCESS');
 export const wsConnectionError = createAction('WS_CONNECTION_ERROR');
 export const wsConnectionClosed = createAction('WS_CONNECTION_CLOSED');

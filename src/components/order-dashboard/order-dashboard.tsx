@@ -20,14 +20,14 @@ function OrderDashboard() {
                         <ul>
                             {done.slice(0, 6).map((order)=>{
                                 return(
-                                    <li className={`text_color_success text_type_digits-default mb-2`}>{order.number}</li>
+                                    <li key={order.number} className={`text_color_success text_type_digits-default mb-2`}>{order.number}</li>
                                 )
                             })}
                         </ul>
                         <ul>
                             {done.slice(6, 12).map((order)=>{
                                 return(
-                                    <li className={`text_color_success text_type_digits-default mb-2`}>{order.number}</li>
+                                    <li key={order.number} className={`text_color_success text_type_digits-default mb-2`}>{order.number}</li>
                                 )
                             })}
                         </ul>
@@ -40,14 +40,14 @@ function OrderDashboard() {
                     <ul>
                         {pending.slice(0, 6).map((order)=>{
                             return(
-                                <li className={`text_color_primary text_type_digits-default mb-2`}>{order.number}</li>
+                                <li key={order.number} className={`text_color_primary text_type_digits-default mb-2`}>{order.number}</li>
                             )
                         })}
                     </ul>
                     <ul>
                         {pending.slice(6, 12).map((order)=>{
                             return(
-                                <li className={`text_color_primary text_type_digits-default mb-2`}>{order.number}</li>
+                                <li key={order.number} className={`text_color_primary text_type_digits-default mb-2`}>{order.number}</li>
                             )
                         })}
                     </ul>

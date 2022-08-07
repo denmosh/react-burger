@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer} from "./reducers";
 import thunk from "redux-thunk";
 import {socketMiddleware} from "./middleware/socket-middleware";
+import {API_WS_URL} from "../constants/constants";
 const wsActions = {
     wsInit: "WS_INIT",
     wsSendMessage: "WS_SEND_MESSAGE",
@@ -13,7 +14,7 @@ const wsActions = {
 
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk).concat(socketMiddleware("wss://norma.nomoreparties.space/orders/all", wsActions)),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}).concat(thunk).concat(socketMiddleware(API_WS_URL, wsActions)),
     devTools: true,
     enhancers: [],
 })

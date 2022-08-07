@@ -22,11 +22,11 @@ function OrderItem({order}:Porps) {
     Moment.locale('ru');
 
     const handleOpenModal = () => {
+        dispatch(setOrder(order));
         history.push({
-            pathname: `/feed/${ order._id }`,
+            pathname: `/feed/${ order.number }`,
             state: { background: location }
         })
-        dispatch(setOrder(order));
     }
 
 
