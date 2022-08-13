@@ -5,6 +5,7 @@ import {socketMiddleware} from "./middleware/socket-middleware";
 import {API_WS_URL} from "../constants/constants";
 const wsActions = {
     wsInit: "WS_INIT",
+    wsClose: "WS_CLOSE",
     wsSendMessage: "WS_SEND_MESSAGE",
     onOpen: "WS_CONNECTION_SUCCESS",
     onClose: "WS_CONNECTION_CLOSED",

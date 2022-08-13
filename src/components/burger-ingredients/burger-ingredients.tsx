@@ -3,17 +3,15 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
-import {useDispatch} from "react-redux";
 import {updateActiveTab} from "../../services/actions/burger-ingredients";
-import {useAppSelector} from "../../hooks/hooks";
-import {IIngredient} from "../../services/interfaces/interfaces";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 
 function BurgerIngredients(){
 
     const {categories, activeTab} = useAppSelector(store => store.burgerIngredients);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const {ingredients} = useAppSelector(store => store.burgerIngredients);
 
@@ -28,7 +26,7 @@ function BurgerIngredients(){
 
         let offsetParent = e.currentTarget.getBoundingClientRect().top;
 
-        const offsetChildren:number[] = refs.current.map((ref, index) => {
+        const offsetChildren:number[] = refs.current.map((ref) => {
             if(ref !== null)
                 return Math.abs(ref.getBoundingClientRect().top - offsetParent)
             else return 0;
@@ -58,12 +56,12 @@ function BurgerIngredients(){
             <div onScroll={handleScroll} className={style.content}>
                 {
                     !!ingredients.length &&
-                    Object.keys(categories).map((key: string, index: number) => {
+                    Object.keys(categories).map((key, index) => {
                         return (
                             <section key={index}>
                                 <h3 ref={el => refs.current[index] = el} data-value={key} className={`text_type_main-medium`}>{categories[key]}</h3>
                                 <div className={`${style.section} pt-6 pl-4 pr-4 pb-2`}>
-                                    {ingredients.filter(({type}) => type === key).map((ingredient:IIngredient, index) => {
+                                    {ingredients.filter(({type}) => type === key).map((ingredient, index) => {
                                         return (
                                             <BurgerIngredient key={ingredient._id} counter={index % 5 === 0 ? 1 : 0} ingredient={ingredient}/>
                                         )

@@ -5,7 +5,6 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorItem from "../constructor-item/constructor-item";
 
-import {useSelector} from "react-redux";
 import {countOrderTotal, createOrder, closeOderModal} from "../../services/actions/order-details";
 import { useHistory } from "react-router-dom";
 import {useDrop} from "react-dnd";
@@ -17,24 +16,24 @@ import {
 } from "../../services/actions/burger-constructor";
 import {getCookie} from "../../services/utils";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {IIngredientUniq} from "../../services/interfaces/interfaces";
+import {IIngredient} from "../../services/interfaces/interfaces";
 
 function BurgerConstructor() {
 
     const dispatch = useAppDispatch()
 
     const {ingredients} = useAppSelector((store) => store.burgerConstructor);
-    const {total, orderRequest, orderModal} = useSelector((store:any) => store.orderDetails);
+    const {total, orderRequest, orderModal} = useAppSelector(store => store.orderDetails);
     const {user} = useAppSelector(store => store.user);
 
-    const bun = ingredients.filter(({type}:{type:string}) => type === "bun")[0];
+    const bun = ingredients.filter(({type}) => type === "bun")[0];
     const history = useHistory();
-    const [, drop] = useDrop({
+    const [, drop] = useDrop<IIngredient>({
         accept: "ingredient",
         collect: monitor => ({
             isHover: monitor.isOver(),
         }),
-        drop(item:any) {
+        drop(item) {
             if(item.type === "bun"){
                 if(!!bun){
                     dispatch(replaceIngredientBun(item))
@@ -61,7 +60,7 @@ function BurgerConstructor() {
 
     const handleClickOrder = () =>{
         if(user.email || getCookie("refreshToken") !== undefined){
-            dispatch(createOrder(ingredients.map(({_id}:{_id:string}) => _id)));
+            dispatch(createOrder(ingredients.map(({_id}) => _id)));
         }else{
             history.push("/login", {state: { from: '/' }});
         }
@@ -99,7 +98,7 @@ function BurgerConstructor() {
                     )}
                 </div>
                 <div className={`${style.constructor} ${style.main}`}>
-                    {ingredients.filter(({type}:{type:string}) => type !== "bun").map((ingredient:IIngredientUniq, index:number) => {
+                    {ingredients.filter(({type}) => type !== "bun").map((ingredient, index) => {
                         return (
                             <ConstructorItem key={ingredient.uuid} ingredient={ingredient} index={index + 2} handleRemoveItem={handleRemoveIngredient} />
                         )

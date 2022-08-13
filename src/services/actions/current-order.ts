@@ -2,6 +2,7 @@ import {createAction} from "@reduxjs/toolkit";
 import {IOrderItem} from "../interfaces/interfaces";
 import {getOrderReq} from "../api";
 import {getResponse} from "./common";
+import {AppDispatch} from "../store";
 
 export const setOrder = createAction<IOrderItem>('SET_ORDER');
 export const clearOrder = createAction('CLEAR_ORDER');
@@ -13,7 +14,7 @@ export const getOrderFailed = createAction('GET_ORDER_FAILED');
 
 export function getOrder(number: string) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
 
         dispatch(getOrderRequest());
         getOrderReq(number)
@@ -25,7 +26,7 @@ export function getOrder(number: string) {
                     throw new Error("Unable to parse response.")
                 }
 
-            }).catch((error) => {
+            }).catch(() => {
                 dispatch(getOrderFailed());
          });
     }

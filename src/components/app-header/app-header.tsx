@@ -34,8 +34,9 @@ function AppHeader() {
                         </li>
                     </ul>
                 </nav>
-
-                <Logo/>
+                <NavLink to={{pathname: '/'}}>
+                    <Logo/>
+                </NavLink>
 
                 <div className={appHeaderStyles.menuItemLast}>
                     <ProfileIcon type={"secondary"}/>

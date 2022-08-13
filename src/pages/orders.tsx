@@ -3,7 +3,7 @@ import styles from "./profile.module.css";
 import stylesOrders from "./orders.module.css";
 import ProfileMenu from "../components/profile-menu/profile-menu";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
-import {wsInit} from "../services/actions/ws-actions";
+import {wsClose, wsInit} from "../services/actions/ws-actions";
 import OrderItem from "../components/order-item/order-item";
 
 function OrdersPage() {
@@ -12,6 +12,9 @@ function OrdersPage() {
 
     useEffect(()=> {
         dispatch(wsInit({path: "orders"}))
+        return () =>{
+            dispatch(wsClose());
+        }
     }, [])
     return (
         <div className={`${styles.wrapper}`}>

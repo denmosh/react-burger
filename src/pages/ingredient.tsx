@@ -1,15 +1,14 @@
 import React, {useEffect} from 'react';
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
-import {useDispatch} from "react-redux";
 import {setIngredient} from "../services/actions/current-ingredient";
 import {useParams} from "react-router-dom";
 import  styles from './ingredient.module.css';
 
-import {useAppSelector} from "../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 
 export function IngredientPage() {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { id }:{ id: string} = useParams();
     const {ingredients, ingredientsRequest, ingredientsFailed} = useAppSelector(store => store.burgerIngredients);
     const {ingredient} = useAppSelector(store => store.currentIngredient);

@@ -11,7 +11,7 @@ import {
     tokenReq,
     updateUserReq
 } from "../api";
-import {deleteCookie, setCookie, setTokenCookie} from "../utils";
+import {deleteCookie, setTokenCookie} from "../utils";
 import {
     IAuthorization,
     IError,
@@ -21,6 +21,7 @@ import {
     IResetPassword,
     IUser
 } from "../interfaces/interfaces";
+import {AppDispatch} from "../store";
 
 export const getUserRequest = createAction('GET_USER_REQUEST');
 export const getUserSuccess = createAction<IUser>('GET_USER_SUCCESS');
@@ -54,7 +55,7 @@ export const logoutRequest = createAction('LOGOUT_REQUEST');
 export const logoutSuccess = createAction<IUser>('LOGOUT_SUCCESS');
 export const logoutFailed = createAction<IError>('LOGOUT_FAILED');
 
-export function handleError(dispatch:any, error:IError, action:any, params:any = null){
+export function handleError(dispatch:AppDispatch, error:IError, action:any, params:any = null){
     if (error && error.message) {
         if(error.message === "jwt expired" || error.message === "jwt malformed"){
             dispatch(refreshToken(action, params));
@@ -64,7 +65,7 @@ export function handleError(dispatch:any, error:IError, action:any, params:any =
 
 export function getUser() {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
 
         dispatch(getUserRequest());
 
@@ -79,7 +80,7 @@ export function getUser() {
 
 export function updateUser(form:IRegistration) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
 
         dispatch(updateUserRequest());
 
@@ -93,7 +94,7 @@ export function updateUser(form:IRegistration) {
 }
 export function register(form:IRegistration) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
         dispatch(registerRequest());
 
         registerReq(form).then(getResponse).then((res) => {
@@ -107,7 +108,7 @@ export function register(form:IRegistration) {
 }
 export function login(form:IAuthorization) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
         dispatch(loginRequest());
         loginReq(form).then(getResponse).then((res) => {
             dispatch(loginSuccess(res.user));
@@ -119,7 +120,7 @@ export function login(form:IAuthorization) {
 }
 export function logout(form:ILogout) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
         dispatch(logoutRequest());
         logoutReq(form).then(getResponse).then((res) => {
             dispatch(logoutSuccess(res.user));
@@ -133,7 +134,7 @@ export function logout(form:ILogout) {
 
 export function refreshToken(action:any, params = null) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
         dispatch(tokenRequest());
         tokenReq().then(getResponse).then((res) => {
             setTokenCookie(res);
@@ -146,9 +147,9 @@ export function refreshToken(action:any, params = null) {
 }
 export function forgotPassword(form:IForgotPassword) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
         dispatch(forgotPasswordRequest());
-        forgotPasswordReq(form).then(getResponse).then((res) => {
+        forgotPasswordReq(form).then(getResponse).then(() => {
             dispatch(forgotPasswordSuccess());
         }).catch((error) => {
             dispatch(forgotPasswordFailed(error));
@@ -158,9 +159,9 @@ export function forgotPassword(form:IForgotPassword) {
 
 export function resetPassword(form:IResetPassword) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
         dispatch(resetPasswordRequest());
-        passwordResetReq(form).then(getResponse).then((res) => {
+        passwordResetReq(form).then(getResponse).then(() => {
             dispatch(resetPasswordSuccess());
         }).catch((error) => {
             dispatch(resetPasswordFailed(error));

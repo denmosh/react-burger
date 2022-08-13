@@ -1,35 +1,40 @@
 import {getCookie} from "../utils";
+import {Middleware} from "redux";
 
 interface IWsActions {
     wsInit: string,
+    wsClose: string,
     wsSendMessage: string,
     onOpen: string,
     onClose: string,
     onError: string,
     onMessage: string
 }
-export const socketMiddleware = (wsUrl:string, wsActions:IWsActions) => {
-    return (store:any) => {
-        let socket:any = null;
+export const socketMiddleware = (wsUrl:string, wsActions:IWsActions): Middleware => {
+    return (store) => {
+        let socket: WebSocket | null = null;
 
-        return (next:any) => (action:any) => {
+        return (next) => (action) => {
             const { dispatch, getState } = store;
             const { type, payload } = action;
-            const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+            const { wsInit, wsClose, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
             const { user } = getState().user;
             if (type === wsInit) {
                 socket = new WebSocket(`${wsUrl}${payload.path}?token=${getCookie('token')}`);
             }
             if (socket) {
-                socket.onopen = (event:any) => {
+                if (type === wsClose) {
+                    socket.close();
+                }
+                socket.onopen = (event) => {
                     dispatch({ type: onOpen, payload: event });
                 };
 
-                socket.onerror = (event:any) => {
+                socket.onerror = (event) => {
                     dispatch({ type: onError, payload: event });
                 };
 
-                socket.onmessage = (event:any) => {
+                socket.onmessage = (event) => {
                     const { data } = event;
                     const parsedData = JSON.parse(data);
                     const { success, ...restParsedData } = parsedData;
@@ -37,7 +42,7 @@ export const socketMiddleware = (wsUrl:string, wsActions:IWsActions) => {
                     dispatch({ type: onMessage, payload: restParsedData });
                 };
 
-                socket.onclose = (event:any) => {
+                socket.onclose = (event) => {
                     dispatch({ type: onClose, payload: event });
                 };
 

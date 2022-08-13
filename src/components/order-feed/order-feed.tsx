@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import OrderItem from "../order-item/order-item";
 import styles from './order-feed.module.css';
-import {wsInit} from "../../services/actions/ws-actions";
+import {wsClose, wsInit} from "../../services/actions/ws-actions";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 function OrderFeed() {
@@ -10,6 +10,9 @@ function OrderFeed() {
 
     useEffect(()=> {
         dispatch(wsInit({path: "orders/all"}))
+        return () =>{
+            dispatch(wsClose());
+        }
     }, [])
     return (
         <div className={styles.container}>
