@@ -15,12 +15,12 @@ function BurgerIngredients(){
 
     const {ingredients} = useAppSelector(store => store.burgerIngredients);
 
-    const setActiveTab = (value:string) => {
-        dispatch(updateActiveTab(value));
-    }
-
     const refs = useRef<Array<HTMLHeadingElement|null>>([]);
 
+    const setActiveTab = (value:string, index: number) => {
+        dispatch(updateActiveTab(value));
+        refs.current[index]?.scrollIntoView({ behavior: 'smooth'});
+    }
 
     const handleScroll = (e:React.SyntheticEvent<HTMLElement>) =>{
 
@@ -40,14 +40,14 @@ function BurgerIngredients(){
     }
 
     return(
-        <div className={`${style.container}`}>
+        <div  className={`${style.container}`}>
             <h1 className={"text_type_main-large mt-10"}>Соберите бургер</h1>
             <div style={{display: 'flex'}} className={"pt-5 pb-10"}>
-                {Object.keys(categories).map((key) => {
+                {Object.keys(categories).map((key, index) => {
 
                     return (
                         // @ts-ignore
-                        <Tab value={key} key={key} active={activeTab === key} onClick={setActiveTab}>
+                        <Tab value={key} key={key} active={activeTab === key} onClick={()=>{setActiveTab(key, index)}}>
                             {categories[key]}
                         </Tab>
                     )
