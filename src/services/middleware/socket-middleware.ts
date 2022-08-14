@@ -1,5 +1,6 @@
 import {getCookie} from "../utils";
-import {Middleware} from "redux";
+import {Middleware, MiddlewareAPI} from "redux";
+import {AppDispatch, RootState} from "../store";
 
 interface IWsActions {
     wsInit: string,
@@ -11,14 +12,13 @@ interface IWsActions {
     onMessage: string
 }
 export const socketMiddleware = (wsUrl:string, wsActions:IWsActions): Middleware => {
-    return (store) => {
+    return (store:MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
         return (next) => (action) => {
-            const { dispatch, getState } = store;
+            const { dispatch } = store;
             const { type, payload } = action;
             const { wsInit, wsClose, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
-            const { user } = getState().user;
             if (type === wsInit) {
                 socket = new WebSocket(`${wsUrl}${payload.path}?token=${getCookie('token')}`);
             }
@@ -47,7 +47,7 @@ export const socketMiddleware = (wsUrl:string, wsActions:IWsActions): Middleware
                 };
 
                 if (type === wsSendMessage) {
-                    const message = { ...payload, token: user.token };
+                    const message = { ...payload };
                     socket.send(JSON.stringify(message));
                 }
             }
