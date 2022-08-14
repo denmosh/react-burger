@@ -3,7 +3,6 @@ import style from "./burger-ingredient.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
-import { useSelector} from "react-redux";
 import {useHistory, useLocation} from 'react-router-dom';
 import {useDrag} from "react-dnd";
 import {useAppSelector} from "../../hooks/hooks";
@@ -18,7 +17,7 @@ function BurgerIngredient(props:{ingredient:IIngredient}) {
 
     const history = useHistory();
     const location = useLocation();
-    const [{ isDrag }, drag] = useDrag({
+    const [, drag] = useDrag({
         type: "ingredient",
         item: ingredient,
         collect: monitor => ({
@@ -27,13 +26,12 @@ function BurgerIngredient(props:{ingredient:IIngredient}) {
     });
 
     useEffect(()=>{
-        setCount(ingredients.filter((item:IIngredient) => item._id === ingredient._id).length);
+        setCount(ingredients.filter((item) => item._id === ingredient._id).length);
     }, [ingredients])
 
 
 
     const handleOpenModal = () => {
-
         history.push({
             pathname: `/ingredients/${ props.ingredient._id }`,
             state: { background: location }

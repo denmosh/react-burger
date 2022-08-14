@@ -11,7 +11,7 @@ import {
     ForgotPasswordPage,
     ResetPasswordPage,
     ProfilePage,
-    IngredientPage
+    IngredientPage, OrdersPage, OrderPage, FeedPage, FeedItemPage
 } from "../../pages";
 import {ProtectedRoute} from "../protected-route/protected-route";
 import {clearIngredient} from "../../services/actions/current-ingredient";
@@ -33,7 +33,6 @@ function App(){
     },[])
 
     const onClose = () => {
-
         dispatch(clearIngredient());
         history.goBack();
     };
@@ -60,20 +59,42 @@ function App(){
                         <ProfilePage/>
                     </ProtectedRoute>
                     <ProtectedRoute path="/profile/orders" exact={true}>
-                        <ProfilePage/>
+                        <OrdersPage/>
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile/orders/:id" exact={true}>
+                        <OrderPage/>
                     </ProtectedRoute>
                     <Route path="/ingredients/:id" exact={true}>
                         <IngredientPage/>
+                    </Route>
+                    <Route path="/feed" exact={true}>
+                        <FeedPage/>
+                    </Route>
+                    <Route path="/feed/:id" exact={true}>
+                        <FeedItemPage/>
                     </Route>
                     <Route>
                         <NotFound404 />
                     </Route>
                 </Switch>
-
                 {background && (
                     <Route path="/ingredients/:id" exact={true}>
                         <Modal onClose={onClose} title={"Детали ингредиента"}>
                             <IngredientPage/>
+                        </Modal>
+                    </Route>
+                )}
+                {background && (
+                    <Route path="/feed/:id" exact={true}>
+                        <Modal onClose={onClose} >
+                            <FeedItemPage/>
+                        </Modal>
+                    </Route>
+                )}
+                {background && (
+                    <Route path="/profile/orders/:id" exact={true}>
+                        <Modal onClose={onClose} >
+                            <FeedItemPage/>
                         </Modal>
                     </Route>
                 )}

@@ -1,4 +1,5 @@
-import {IToken} from "./interfaces/interfaces";
+import {IIngredient, IToken} from "./interfaces/interfaces";
+import {useMemo} from "react";
 
 export function getCookie(name:string) {
     const matches = document.cookie.match(
@@ -37,4 +38,12 @@ export function deleteCookie(name:string) {
 export function setTokenCookie(res:IToken) {
     setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 1200, path: '/' });
     setCookie('refreshToken', res.refreshToken, { path: '/' });
+}
+
+export const countPrice = (ingredients:Array<string>, ingredientsDetailed: Array<IIngredient>) => {
+    return ingredients.reduce((accumulator, ingredientId) => {
+        let ingredient = ingredientsDetailed.find(x => x._id === ingredientId)
+        let price = ingredient ? ingredient.price : 0;
+        return accumulator + price;
+    }, 0);
 }

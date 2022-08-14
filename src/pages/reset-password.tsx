@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {resetPassword} from "../services/actions/user";
 import {getCookie} from "../services/utils";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";

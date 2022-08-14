@@ -12,6 +12,26 @@ export interface IIngredient {
     image_large: string;
     __v: number;
 }
+export interface IOrderItem{
+    _id: string,
+    ingredients: Array<string>
+    status: 'created' | 'pending' | 'done'
+    name: string
+    createdAt: string
+    updatedAt: string
+    number: string
+    owner?: string
+    __v?: number
+}
+
+export interface IWsMessage{
+    orders: Array<IOrderItem>
+    total: number,
+    totalToday: number
+}
+export interface IWsInit {
+    path: string;
+}
 export interface IIngredientUniq extends IIngredient{
     uuid: string;
 }

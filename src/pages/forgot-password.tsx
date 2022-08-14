@@ -2,8 +2,7 @@ import React, {useCallback, useState} from 'react';
 import styles from './login.module.css'
 import {Button,  Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {forgotPassword, register} from "../services/actions/user";
+import {forgotPassword} from "../services/actions/user";
 import {getCookie} from "../services/utils";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 

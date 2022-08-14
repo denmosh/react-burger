@@ -2,28 +2,28 @@ import React, {useRef} from 'react';
 import style from './constructor-item.module.css';
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag, useDrop} from "react-dnd";
-import {useDispatch} from "react-redux";
 import {moveIngredient} from "../../services/actions/burger-constructor";
 import PropTypes from "prop-types";
 import ingredientPropTypes from "../../constants/ingredient-prop-types";
-import {IIngredientUniq} from "../../services/interfaces/interfaces";
+import {IIngredient, IIngredientUniq} from "../../services/interfaces/interfaces";
+import {useAppDispatch} from "../../hooks/hooks";
 
 
-function ConstructorItem(props:{ingredient: IIngredientUniq, index: number, handleRemoveItem: any}) {
+function ConstructorItem(props:{ingredient: IIngredientUniq, index: number, handleRemoveItem:(uuid:string)=>void}) {
     const {ingredient, handleRemoveItem, index} = props;
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const ref = useRef<HTMLDivElement>(null);
 
-    const [{ handlerId }, drop] = useDrop({
+    const [{ handlerId }, drop] = useDrop<IIngredient & {index:number}, unknown, {handlerId:string | symbol | null}>({
         accept: "constructor-item",
         collect(monitor) {
             return {
                 handlerId: monitor.getHandlerId(),
             }
         },
-        hover(item:any, monitor) {
+        hover(item, monitor) {
             if (!ref.current) {
                 return
             }

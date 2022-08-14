@@ -4,6 +4,7 @@ import {clearIngredients} from "./burger-constructor";
 import {createOrderReq} from "../api";
 import {handleError} from "./user";
 import {IIngredient, IOrderResponse} from "../interfaces/interfaces";
+import {AppDispatch} from "../store";
 
 export const createOrderRequest = createAction('CREATE_ORDER_REQUEST');
 export const createOrderSuccess = createAction<IOrderResponse>('CREATE_ORDER_SUCCESS');
@@ -14,7 +15,7 @@ export const closeOderModal = createAction('CLOSE_ORDER_MODAL');
 
 export function createOrder(ingredients:string[]) {
 
-    return function (dispatch:any) {
+    return function (dispatch:AppDispatch) {
 
         dispatch(createOrderRequest());
 
