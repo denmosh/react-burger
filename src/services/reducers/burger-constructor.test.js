@@ -1,8 +1,7 @@
 import {burgerConstructor} from "./burger-constructor";
 import * as actions from "../actions/burger-constructor";
 import {v4 as uuid} from 'uuid';
-import {ingredient} from "../../utils/data";
-import {addIngredientBun, replaceIngredientBun} from "../actions/burger-constructor";
+import {ingredient, ingredientBun} from "../../utils/data";
 
 jest.mock('uuid', () => ({v4: () => 'hjhj87878'}));
 
@@ -60,10 +59,50 @@ describe('burger constructor reducer', () => {
             }
         )
     })
+
+    it('should handle removeIngredient', () => {
+        expect(
+            burgerConstructor({ingredients: [
+                    {...ingredient, uuid: '123'},
+                    {...ingredient, uuid: '124'}
+                ]}, {
+                type: actions.removeIngredient.type,
+                payload: {uuid: '123'}
+            })
+        ).toEqual(
+            {
+                ingredients: [
+                    {...ingredient, uuid: '124'},
+                ]
+            }
+        )
+    })
+
+    it('should handle moveIngredient', () => {
+        expect(
+            burgerConstructor({ingredients: [
+                    {...ingredient, uuid: '000'},
+                    {...ingredient, uuid: '111'},
+                    {...ingredient, uuid: '222'},
+                ]}, {
+                type: actions.moveIngredient.type,
+                payload: {from: 0, to: 2}
+            })
+        ).toEqual(
+            {
+                ingredients: [
+                    {...ingredient, uuid: '111'},
+                    {...ingredient, uuid: '222'},
+                    {...ingredient, uuid: '000'},
+                ]
+            }
+        )
+    })
     it('should handle replaceIngredientBun', () => {
         expect(
             burgerConstructor({ingredients: [
-
+                    {...ingredientBun, uuid: uuid()},
+                    {...ingredientBun, uuid: uuid()}
                 ]}, {
                 type: actions.replaceIngredientBun.type,
                 payload: ingredient
@@ -77,5 +116,19 @@ describe('burger constructor reducer', () => {
             }
         )
     })
-    
+
+    it('should handle clearIngredients', () => {
+        expect(
+            burgerConstructor({ingredients: [
+                    {...ingredientBun, uuid: uuid()},
+                    {...ingredientBun, uuid: uuid()}
+                ]}, {
+                type: actions.clearIngredients.type
+            })
+        ).toEqual(
+            {
+                ingredients: []
+            }
+        )
+    })
 })
