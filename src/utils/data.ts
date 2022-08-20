@@ -241,3 +241,14 @@ export const ingredient =
         "image_large": "https://code.s3.yandex.net/react/code/cheese-large.png",
         "__v": 0
     }
+export const order = {
+    _id: '120',
+    ingredients: ['60666c42cc7b410027a1a9bf', '60666c42cc7b410027a1a9b2'],
+    status: 'created',
+    name: "Space флюоресцентный бургер",
+    createdAt: "2022-08-20T12:15:19.497Z",
+    updatedAt: "2022-08-20T12:15:19.497Z",
+    number: 22351,
+    owner: 123,
+    __v: 1
+}
