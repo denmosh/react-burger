@@ -17,7 +17,7 @@ interface IOrderDetails {
     total: number,
 }
 const orderDetailsInitialState:IOrderDetails = {
-    order:null,
+    order: null,
     orderRequest: false,
     orderFailed: false,
     orderModal: false,
@@ -27,7 +27,7 @@ const orderDetailsInitialState:IOrderDetails = {
 
 export const orderDetails = createReducer(orderDetailsInitialState, (builder) => {
     builder
-        .addCase(createOrderRequest, (state, action) => {
+        .addCase(createOrderRequest, (state) => {
             return {
                 ...state,
                 orderRequest: true,
@@ -50,25 +50,25 @@ export const orderDetails = createReducer(orderDetailsInitialState, (builder) =>
                 total: sum,
             }
         })
-        .addCase(showOrderModal, (state, action) => {
+        .addCase(showOrderModal, (state) => {
             return {
                 ...state,
                 orderModal: true,
             }
         })
-        .addCase(closeOderModal, (state, action) => {
+        .addCase(closeOderModal, (state) => {
             return {
                 ...state,
                 orderModal: false,
             }
         })
-        .addCase(createOrderFailed, (state, action) => {
+        .addCase(createOrderFailed, (state) => {
             return {
                 ...state,
                 orderFailed: true,
                 orderRequest: false,
             }
-        }).addDefaultCase((state, action) => {
+        }).addDefaultCase((state) => {
         return state
     })
 });
